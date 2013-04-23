@@ -131,6 +131,6 @@ class Admin::StoresController < ApplicationController
 
   private
   def store
-    @store ||= Store.find(params[:store_id])
+    @store ||= Store.find_by_slug(params[:store_slug])
   end
 end

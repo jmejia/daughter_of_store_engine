@@ -42,13 +42,13 @@ describe Admin::ProductsController do
 
   describe "GET show" do
     it "assigns the requested product as @product" do
-      get :show, {store_id: store.to_param, :id => product.to_param}
+      get :show, {store_slug: store.to_param, :id => product.to_param}
       assigns(:product).should eq(product)
     end
 
     it "doesn't show a retired product" do
       product.retired = true
-      get :show, {store_id: store.to_param, :id => product.to_param}
+      get :show, {store_slug: store.to_param, :id => product.to_param}
       expect(response).to redirect_to home_path(store)
     end
   end
@@ -56,14 +56,14 @@ describe Admin::ProductsController do
   describe "GET new" do
     it "assigns a new product as @product" do
       subject.stub(:current_store).and_return(store)
-      get :new, {store_id: store.to_param}
+      get :new, {store_slug: store.to_param}
       assigns(:product).should be_a_new(Product)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested product as @product" do
-      get :edit, {store_id: store.to_param, :id => product.to_param}
+      get :edit, {store_slug: store.to_param, :id => product.to_param}
       assigns(:product).should eq(product)
     end
   end
@@ -78,13 +78,13 @@ describe Admin::ProductsController do
       end
 
       it "assigns a newly created product as @product" do
-        post :create, {:store_id => store.to_param, :product => valid_attributes}
+        post :create, {:store_slug => store.to_param, :product => valid_attributes}
         assigns(:product).should be_a(Product)
       end
 
       it "redirects to the created product" do
-        post :create, {:product => valid_attributes, :store_id => store.to_param}
-        response.should redirect_to(admin_products_path(store_id: store))
+        post :create, {:product => valid_attributes, :store_slug => store.to_param}
+        response.should redirect_to(admin_products_path(store_slug: store))
       end
     end
 
@@ -92,7 +92,7 @@ describe Admin::ProductsController do
       it "assigns a newly created but unsaved product as @product" do
         @ability.can :create, Product
         Product.any_instance.should_receive(:save).and_return(false)
-        post :create, {:product => { "name" => "invalid value" }, store_id: store.to_param}
+        post :create, {:product => { "name" => "invalid value" }, store_slug: store.to_param}
         assigns(:product).should be_a_new(Product)
       end
     end
@@ -116,8 +116,8 @@ describe Admin::ProductsController do
       end
 
       it "redirects to the product" do
-        put :update, {store_id: store.to_param, :id => product.to_param, :product => valid_attributes}
-        expect(response).to redirect_to(admin_products_path(store_id: store.to_param))
+        put :update, {store_slug: store.to_param, :id => product.to_param, :product => valid_attributes}
+        expect(response).to redirect_to(admin_products_path(store_slug: store.to_param))
         expect(flash.notice).to include("success")
       end
     end
@@ -126,7 +126,7 @@ describe Admin::ProductsController do
       it "assigns the product as @product" do
         # Trigger the behavior that occurs when invalid params are submitted
         product.stub(:save).and_return(false)
-        put :update, {store_id: store.to_param, :id => product.to_param, :product => { "name" => "invalid value" }}
+        put :update, {store_slug: store.to_param, :id => product.to_param, :product => { "name" => "invalid value" }}
         assigns(:product).should eq(product)
       end
     end
@@ -140,7 +140,7 @@ describe Admin::ProductsController do
     end
 
     it "redirects to the products list" do
-      delete :destroy, {store_id: store.to_param, :id => product.to_param}
+      delete :destroy, {store_slug: store.to_param, :id => product.to_param}
       response.should redirect_to(admin_products_path(store))
     end
   end
@@ -152,13 +152,13 @@ describe Admin::ProductsController do
 
     it "retires a product" do
       product.should_receive(:retired=).with(true)
-      put :retire, {:store_id => store.to_param, id: product.id}
+      put :retire, {:store_slug => store.to_param, id: product.id}
 
     end
 
     it "unretires a product" do
       product.should_receive(:retired=).with(false)
-      put :unretire, {:store_id => store.to_param, id: product.id}
+      put :unretire, {:store_slug => store.to_param, id: product.id}
     end
 
   end
