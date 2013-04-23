@@ -5,6 +5,7 @@ StoreEngine::Application.routes.draw do
   resources :users
 
   namespace :admin do
+    resources :invoices, :only => [:index, :show]
     get "dashboard" => "dashboard#show"
     resources :stores do
       put :activate
