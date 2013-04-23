@@ -1,5 +1,6 @@
 # STORES
 store = Store.create!(name: "Oregon Sale", slug:"oregon-sale", status: "enabled")
+store2 = Store.create!(name: "TR's Treasures", slug:"trs-treasures", status: "enabled")
 
 # CATEGORIES
 c = Category.new(name: "Grub")
@@ -169,6 +170,12 @@ p.save!
 p=Product.new( name: "Peacoat", price: 3000,
   description: "Classy coat for the classy gent.", category_ids: ["1"], retired: true)
 p.store = store
+p.save!
+
+#STORE2 Products
+p=Product.new( name: "Necklace", price: 1000,
+  description: "Purdy", category_ids: [])
+p.store = store2
 p.save!
 
 #USERS

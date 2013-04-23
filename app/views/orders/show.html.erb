@@ -2,7 +2,6 @@
 <p id="notice"><%= notice %></p>
 
 
-
 <h5>Full Name: <%= @user %></h5>
 <h5>User Email: <%= @user.email %></h5>
 <h5>User Id: <%= @user.id %></h5>
@@ -52,6 +51,6 @@
 <%= link_to 'Shipped | ', change_status_on_order_path(:id => @order.id, :status => 'shipped'), :method => "put" if @order.status != "shipped" %>
 <%= link_to 'Returned | ', change_status_on_order_path(:id => @order.id, :status => 'returned'), :method => "put" if @order.status != "returned" %>
 <%= link_to 'Edit Order | ', edit_order_path(@order) %>
-<%= link_to 'Go Back', admin_path %>
+<%#= link_to 'Go Back', admin_path %>
 <% end %>
 </div>

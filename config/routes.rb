@@ -64,6 +64,12 @@ StoreEngine::Application.routes.draw do
 
   scope "/:store_id" do
 
+    # resources :orders do
+    #   member do
+    #     put :change_status, :as => "change_status_on"
+    #   end
+    # end
+
     resources :categories
     get "/" => "products#index", as: "home"
     resources :products, :only => :show
