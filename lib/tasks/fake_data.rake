@@ -2,7 +2,11 @@ namespace :db do
   desc "Fill database with fake stores"
   task populate: :environment do
     stores = Store.all
+
+    count = 0
     10.times do |s|
+      count += 1
+      puts "store #{count}"
       stores << Store.create!(description: Faker::Lorem.sentence,
                     name: Faker::Lorem.word.capitalize + (" ") + Faker::Lorem.word.capitalize,
                     slug: "random-url-#{s+1}",
@@ -11,14 +15,20 @@ namespace :db do
     end
 
     # creates fake categories for each store
+    count = 0
     10.times do |c|
+      count += 1
+      puts "category #{count}"
       stores.each do |store|
         store.categories.create!(name: Faker::Lorem.word.capitalize)
       end
     end
 
     # creates fake products for each store
-    10_000.times do |p|
+    count = 0
+    250.times do |p|
+      count += 1
+      puts "product #{count}"
       retired = "retired"
       stores.each {|store| store.products.create!(description: Faker::Lorem.sentence,
                                                   name: Faker::Lorem.word.capitalize,
@@ -63,7 +73,10 @@ namespace :db do
 
   desc "Fill database with fake users"
   task populate: :environment do
-    10_000.times do |u|
+    count = 0
+    50.times do |u|
+      count += 1
+      puts "user #{count}"
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
       user = User.create!(full_name: "#{first_name} #{last_name}",
@@ -76,7 +89,4 @@ namespace :db do
                   )
     end
   end
-
-
 end
-
