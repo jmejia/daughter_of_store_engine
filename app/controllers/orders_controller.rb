@@ -49,6 +49,7 @@ class OrdersController < ApplicationController
     @order = create_order(params)
 
     if @order.valid?
+      @order.update_attribute("store_id", current_cart.store_id)
       deliver_confirmation(@order.owner, @order)
       clear_cart
       redirect_to @order, notice: 'Thanks! Your order was submitted.'

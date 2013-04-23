@@ -1,5 +1,6 @@
 # STORES
 store = Store.create!(name: "Oregon Sale", slug:"oregon-sale", status: "enabled")
+store2 = Store.create!(name: "TR's Treasures", slug:"trs-treasures", status: "enabled")
 
 # CATEGORIES
 c = Category.new(name: "Grub")
@@ -171,6 +172,12 @@ p=Product.new( name: "Peacoat", price: 3000,
 p.store = store
 p.save!
 
+#STORE2 Products
+p=Product.new( name: "Necklace", price: 1000,
+  description: "Purdy", category_ids: [])
+p.store = store2
+p.save!
+
 #USERS
 User.create!(full_name: "Franklin Webber", email: "demoXX+franklin@jumpstartlab.com",
   password: "password", role: :user, display_name: nil)
@@ -242,16 +249,16 @@ LineItem.create!(product_id: 23, cart_id: nil,
   order_id: 10, quantity: 6, price: 10)
 
 #ORDERS
-Order.create!(status: "pending", user_id: 1, total_cost: 3372)
-Order.create!(status: "pending", user_id: 4, total_cost: 7375)
-Order.create!(status: "cancelled", user_id: 1, total_cost: 4205)
-Order.create!(status: "cancelled", user_id: 1, total_cost: 488)
-Order.create!(status: "paid", user_id: 4, total_cost: 800)
-Order.create!(status: "paid", user_id: 1, total_cost: 1138)
-Order.create!(status: "shipped", user_id: 4, total_cost: 8)
-Order.create!(status: "shipped", user_id: 4, total_cost: 16000)
-Order.create!(status: "returned", user_id: 1, total_cost: 4844)
-Order.create!(status: "returned", user_id: 4, total_cost: 460)
+Order.create!(status: "pending", user_id: 1, total_cost: 3372, store_id: 1)
+Order.create!(status: "pending", user_id: 4, total_cost: 7375, store_id: 1)
+Order.create!(status: "cancelled", user_id: 1, total_cost: 4205, store_id: 1)
+Order.create!(status: "cancelled", user_id: 1, total_cost: 488, store_id: 1)
+Order.create!(status: "paid", user_id: 4, total_cost: 800, store_id: 2)
+Order.create!(status: "paid", user_id: 1, total_cost: 1138, store_id: 2)
+Order.create!(status: "shipped", user_id: 4, total_cost: 8, store_id: 2)
+Order.create!(status: "shipped", user_id: 4, total_cost: 16000, store_id: 2)
+Order.create!(status: "returned", user_id: 1, total_cost: 4844, store_id: 2)
+Order.create!(status: "returned", user_id: 4, total_cost: 460, store_id: 2)
 
 #ROLES
 Role.create!(title: "admin")
