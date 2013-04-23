@@ -67,7 +67,6 @@ feature "Store administrator works with products as in StoreEngine", %q{
    page.set_rack_session(user_id: stocker.id)
    visit admin_products_path(store)
 
-   puts current_path
     within('table>tbody>tr:first-child') do
       click_link("Retire")
     end

@@ -51,7 +51,6 @@ feature "StoreEngine visitor creates a new account", %q{
       expect(find('a')['href']).to include(login_path)
     end
 
-    save_and_open_page
   end
 
   end

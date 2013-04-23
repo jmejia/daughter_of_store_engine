@@ -16,8 +16,8 @@ feature "Store administrator removes another admin", %q{
   scenario "Removing an admin", js: true do
     store.add_admin(admin)
     store.add_admin(other_admin)
-    page.set_rack_session(user_id: admin.id)
 
+    page.set_rack_session(user_id: admin.id)
     visit admin_home_path(store)
 
     UserMailer.stub(:delay).and_return(delay)
