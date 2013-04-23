@@ -11,7 +11,7 @@ class ProductsController < ApplicationController
     elsif @store.disabled?
       render(file: "#{Rails.root}/public/maintenance", formats: :html, status: 404)
     else
-      @products = @store.products.order("name").active
+      @products = @store.products.order("name").active.page(params[:page]).per(21)
       @categories = @store.categories.order("name")
     end
   end
