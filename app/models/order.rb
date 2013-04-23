@@ -1,9 +1,11 @@
 class Order < ActiveRecord::Base
-  attr_accessible :status, :user_id, :total_cost, :confirmation, :visitor, :stripe_card_token
+  attr_accessible :status, :user_id, :total_cost, :confirmation, :visitor,
+                  :stripe_card_token, :store_id
   attr_accessor :stripe_card_token
 
   has_many :line_items
   belongs_to :user
+  belongs_to :store
   has_one :visitor_order
   has_one :visitor, through: :visitor_order
 

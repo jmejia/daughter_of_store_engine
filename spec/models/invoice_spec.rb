@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe Invoice do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "Will create an invoice for each store" do
+    Invoice.create
+  end
 end

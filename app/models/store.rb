@@ -69,9 +69,9 @@ class Store < ActiveRecord::Base
     slug
   end
 
-  def self.find(slug)
-    find_by_slug(slug)
-  end
+  # def self.find(slug)
+  #   find_by_slug(slug)
+  # end
 
   def pending?
     status == "pending"
