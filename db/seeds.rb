@@ -263,3 +263,7 @@ Order.create!(status: "returned", user_id: 4, total_cost: 460, store_id: 2)
 #ROLES
 Role.create!(title: "admin")
 Role.create!(title: "stocker")
+
+#INVOICES
+Invoice.create!(store_id: 1, start_date: Date.new(2010,10,01), end_date: Date.new(2010,10,20), total_revenue: 300, fee_amount: 15)
+

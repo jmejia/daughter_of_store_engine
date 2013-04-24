@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <h1>Invoices</h1>
+    <%= button_to "Generate Invoices", generate_admin_invoices_path, class: "btn-primary" %>
+  </thead>
+  <tr>
+    <th>Store</th>
+    <th>Fee</th>
+    <th>Paid</th>
+    <th>Actions</th>
+  </tr>
+  <% @invoices.each do |invoice| %>
+  <tr>
+    <td><%= Store.find(invoice.store_id).name %></td>
+    <td><%= invoice.fee_amount %></td>
+  </tr>
+  <% end %>
+</table>
