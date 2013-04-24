@@ -6,9 +6,12 @@ describe InvoiceService do
     store = stores(:test)
     order1 = Order.new(total_cost: 80, store_id: store.id)
     order1.created_at = Date.new(2010,10,10)
+    order1.save
     order2 = Order.new(total_cost: 120, store_id: store.id)
     order2.created_at = Date.new(2010,10,11)
-    InvoiceService.create(order1, order2)
+    order2.save
+    orders = store.orders
+    InvoiceService.create(orders)
     result = store.invoices.first
     expect(result).to_not be_nil
     expect(result.total_revenue).to eq 200

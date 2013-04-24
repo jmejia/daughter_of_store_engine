@@ -1,5 +1,5 @@
 class InvoiceService
-  def self.create(*orders)
+  def self.create(orders)
     total_cost  = 0
     order_dates = orders.collect(&:created_at)
     start_date  = order_dates.min

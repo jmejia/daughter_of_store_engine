@@ -1,7 +1,11 @@
-<table>
+<div class="well well-large">
+<table class="table">
   <thead>
     <h1>Invoices</h1>
-    <%= button_to "Generate Invoices", generate_admin_invoices_path, class: "btn-primary" %>
+    <hr>
+    <h3>April</h3>
+    <h4>Showing data for previous month.</h4>
+    <%= button_to "Generate Invoices", generate_admin_invoices_path, class: "btn btn-primary pull-right" %>
   </thead>
   <tr>
     <th>Store</th>
@@ -9,10 +13,29 @@
     <th>Paid</th>
     <th>Actions</th>
   </tr>
-  <% @invoices.each do |invoice| %>
+  <% @stores.each do |store| %>
   <tr>
-    <td><%= Store.find(invoice.store_id).name %></td>
-    <td><%= invoice.fee_amount %></td>
+    <td><%= store.name %></td>
+    <td><%= amount_in_dollars(fee(store.orders)) %></td>
+    <td><%= check_box_tag(:status), checked = "paid" %></td>
+    <td>
+      <div class="btn-group">
+        <% if store.status != "disabled" %>
+          <%= link_to "Disable",
+                      admin_store_disable_path(store),
+                      :method => :put,
+                      :class => "btn btn-danger"%>
+        <% else %>
+          <%= link_to "Enable",
+                      admin_store_enable_path(store),
+                      :method => :put,
+                      :class => "btn btn-success"%>
+        <% end %>
+      </div>
+    </td>
   </tr>
   <% end %>
 </table>
+<hr>
+<h4>Total Owed <%= amount_in_dollars(total_fees(@stores)) %></h4>
+</div>
