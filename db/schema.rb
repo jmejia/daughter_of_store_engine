@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130418032458) do
+ActiveRecord::Schema.define(:version => 20130423193527) do
 
   create_table "carts", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -42,6 +42,20 @@ ActiveRecord::Schema.define(:version => 20130418032458) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "invoices", :force => true do |t|
+    t.integer  "store_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "total_revenue"
+    t.integer  "fee_amount"
+    t.integer  "fee_percentage", :default => 5
+    t.string   "status",         :default => "outstanding"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
+
+  add_index "invoices", ["store_id"], :name => "index_invoices_on_store_id"
+
   create_table "line_items", :force => true do |t|
     t.integer  "product_id"
     t.integer  "cart_id"
@@ -59,7 +73,10 @@ ActiveRecord::Schema.define(:version => 20130418032458) do
     t.datetime "updated_at",                          :null => false
     t.integer  "total_cost"
     t.string   "confirmation"
+    t.integer  "store_id"
   end
+
+  add_index "orders", ["store_id"], :name => "index_orders_on_store_id"
 
   create_table "product_categories", :id => false, :force => true do |t|
     t.integer  "product_id"
