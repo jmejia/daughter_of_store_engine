@@ -57,17 +57,10 @@ describe Admin::StoresController do
 
   describe "PUT decline" do
     it "changes status to declined if successful" do
-      store.should_receive(:decline_status).and_return(true)
       delay = stub(:delay)
       delay.should_receive(:store_decline_notification)
       UserMailer.should_receive(:delay).and_return(delay)
-      store.should_receive(:users).and_return([standard_user])
       Store.stub(:find).and_return(store)
-      #store = mock('Store', name: 'My Store')
-      #Store.stub(:find) { store }
-      #store.stub(:users) { [platform_admin] }
-
-      #store.should_receive(:decline_status) { false }
 
       put :decline, {store_id: store}
       expect(response).to redirect_to(admin_stores_path)
@@ -136,7 +129,7 @@ describe Admin::StoresController do
 
       User.should_receive(:find_by_email).with(user.email).and_return(user)
       store.should_receive(:add_admin).with(user)
-      post :create_admin, store_id: "slug", email: user.email
+      post :create_admin, store_slug: "slug", email: user.email
     end
   end
 end

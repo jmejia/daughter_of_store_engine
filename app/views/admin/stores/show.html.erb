@@ -30,7 +30,7 @@
         <th>Email</th>
         <th>
           <% unless @store.stocker(current_user) %>
-            <%= link_to 'Add a New Admin', admin_new_admin_path(params[:store_id]), :class => 'btn btn-primary' %>
+            <%= link_to 'Add a New Admin', admin_new_admin_path(params[:store_slug]), :class => 'btn btn-primary' %>
           <% end %></th>
       </tr>
     </thead>
@@ -64,7 +64,7 @@
         <th>Email</th>
         <th>
           <% unless @store.stocker(current_user)%>
-          <%= link_to 'Add a New Stocker', admin_new_stocker_path(params[:store_id]),
+          <%= link_to 'Add a New Stocker', admin_new_stocker_path(params[:store_slug]),
             :class => 'btn btn-primary' %>
           <% end %>
           </th>
