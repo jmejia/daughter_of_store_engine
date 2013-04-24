@@ -11,6 +11,7 @@ class Admin::StoresController < ApplicationController
   end
 
   def show
+    @store = Store.find_by_slug(params[:store_slug])
     if current_user && (@store.users.include?(current_user) || current_user.platform_administrator)
       render :show
     else
@@ -83,26 +84,28 @@ class Admin::StoresController < ApplicationController
 
   def create_admin
     new_admin = User.find_by_email(params[:email])
+    store = Store.find_by_slug(params[:store_slug])
+    raise store.inspect
 
     if new_admin && store.add_admin(new_admin)
       UserMailer.delay.new_admin_notification(new_admin, @store)
-      redirect_to admin_home_path(params[:store_id])
+      redirect_to admin_home_path(params[:store_slug])
     elsif new_admin.nil?
       UserMailer.delay.signup_notification(params[:email])
-      redirect_to admin_home_path(params[:store_id])
+      redirect_to admin_home_path(params[:store_slug])
     else
       render :new_admin,
-        notice: "We're sorry. There was a problem adding #{params[:email]}"
+      notice: "We're sorry. There was a problem adding #{params[:email]}"
     end
   end
 
   def decline
     authorize! :manage, Store
-    @store = Store.find(params[:store_id])
-    user = @store.users.first
-    if @store.decline_status
-      redirect_to admin_stores_path, notice: "The status for #{@store.name} has been set to 'declined' and a message has been sent to #{user.email}."
-      UserMailer.delay.store_decline_notification(user.email, @store.name)
+    #@store = Store.find(params[:store_id])
+    user = store.users.first
+    if store.decline_status
+      redirect_to admin_stores_path, notice: "The status for #{store.name} has been set to 'declined' and a message has been sent to #{user.email}."
+      UserMailer.delay.store_decline_notification(user.email, store.name)
     else
       flash[:errors] = "We're sorry. There was a problem declining #{store.name}."
       redirect_to admin_stores_path
@@ -121,6 +124,7 @@ class Admin::StoresController < ApplicationController
 
   def enable
     authorize! :manage, Store
+    store = Store.find_by_slug(params[:store_id])
     if store.enable_status
       redirect_to admin_stores_path, notice: "#{store.name} has been enabled."
     else
@@ -131,6 +135,6 @@ class Admin::StoresController < ApplicationController
 
   private
   def store
-    @store ||= Store.find(params[:store_id])
+    @store ||= Store.find_by_slug(params[:store_id])
   end
 end
