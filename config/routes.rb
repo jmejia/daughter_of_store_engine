@@ -5,7 +5,7 @@ StoreEngine::Application.routes.draw do
   resources :users
 
   namespace :admin do
-    resources :invoices, :only => [:index, :show] do
+    resources :invoices do
       collection do
         post :generate_invoices, :as => :generate
       end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130423193527) do
+ActiveRecord::Schema.define(:version => 20130425025341) do
 
   create_table "carts", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -49,9 +49,9 @@ ActiveRecord::Schema.define(:version => 20130423193527) do
     t.integer  "total_revenue"
     t.integer  "fee_amount"
     t.integer  "fee_percentage", :default => 5
-    t.string   "status",         :default => "outstanding"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.boolean  "status",         :default => false
   end
 
   add_index "invoices", ["store_id"], :name => "index_invoices_on_store_id"

@@ -4,7 +4,7 @@
     <h1>Invoices</h1>
     <hr>
     <h3>April</h3>
-    <h4>Showing data for previous month.</h4>
+    <h4 class="pull-left">Showing data for previous month.</h4>
     <%= button_to "Generate Invoices", generate_admin_invoices_path, class: "btn btn-primary pull-right" %>
   </thead>
   <tr>
@@ -14,10 +14,14 @@
     <th>Actions</th>
   </tr>
   <% @stores.each do |store| %>
-  <tr>
+  <tr class="invoice">
     <td><%= store.name %></td>
     <td><%= amount_in_dollars(fee(store.orders)) %></td>
-    <td><%#= check_box_tag(:status, :value => "paid", :onclick => admin_invoice_update_path(store.invoices.last)) %></td>
+      <td>
+        <% if store.monthly_invoice %>
+          <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", 'data-id' => store.id)%>
+        <% end %>
+      </td>
     <td>
       <div class="btn-group">
         <% if store.status != "disabled" %>

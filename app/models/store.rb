@@ -12,6 +12,10 @@ class Store < ActiveRecord::Base
   validates_uniqueness_of :name, :slug
   validates_presence_of :name, :slug
 
+  def monthly_invoice
+    self.invoices.where("start_date between ? and ?", Date.today, Date.today.next_month.beginning_of_month).first
+  end
+
   def admins
     User.joins(:user_stores).where("user_stores.store_id = ? AND user_stores.role_id = ?",
                                   id, Role.admin.id)

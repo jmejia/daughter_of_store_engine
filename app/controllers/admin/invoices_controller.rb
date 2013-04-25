@@ -8,6 +8,17 @@ class Admin::InvoicesController < ApplicationController
   def show
   end
 
+  def update
+    invoice = Invoice.find(params[:id])
+
+    if invoice.update_attributes(params[:invoice])
+      #  render :json => {:status => "success", :notice => "Successfully changed status of invoice."}
+      flash.now[:notice] = "Successfully changed status of invoice."
+    else
+      flash.now[:error] = "Unable to mark invoice as paid"
+    end
+  end
+
   def generate_invoices
     @stores = Store.all
 
