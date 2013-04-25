@@ -53,6 +53,7 @@ class UserMailer < ActionMailer::Base
   def monthly_invoice(store)
     @store = store
     @admin = store.admins.first
+    @invoice = store.invoices.last
     mail to: store.admins.first.email
   end
 end
