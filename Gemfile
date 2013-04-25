@@ -13,6 +13,7 @@ gem 'stripe'
 gem 'delayed_job_active_record'
 gem 'faker'
 gem 'kaminari'
+gem "bullet", :group => "development"
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
