@@ -49,4 +49,10 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail to: user.email
   end
+
+  def monthly_invoice(store)
+    @store = store
+    @admin = store.admins.first
+    mail to: store.admins.first.email
+  end
 end
