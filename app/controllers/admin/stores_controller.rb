@@ -115,7 +115,7 @@ class Admin::StoresController < ApplicationController
   def disable
     authorize! :manage, Store
     if store.disable_status
-      redirect_to admin_stores_path, notice: "#{store.name} has been disabled."
+      redirect_to :back, notice: "#{store.name} has been disabled."
     else
       flash[:errors] = "We're sorry. There was a problem disabling #{store.name}."
       redirect_to admin_stores_path
@@ -126,7 +126,7 @@ class Admin::StoresController < ApplicationController
     authorize! :manage, Store
     store = Store.find_by_slug(params[:store_id])
     if store.enable_status
-      redirect_to admin_stores_path, notice: "#{store.name} has been enabled."
+      redirect_to :back, notice: "#{store.name} has been enabled."
     else
       flash[:errors] = "We're sorry. There was a problem disabling #{store.name}."
       redirect_to admin_stores_path
