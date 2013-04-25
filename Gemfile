@@ -13,6 +13,8 @@ gem 'stripe'
 gem 'delayed_job_active_record'
 gem 'faker'
 gem 'kaminari'
+gem 'unicorn'
+gem 'newrelic_rpm'
 gem "bullet", :group => "development"
 
 group :assets do
@@ -28,7 +30,6 @@ end
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
-  gem 'unicorn'
   gem 'simplecov'
   gem 'fabrication'
   gem 'capybara'
@@ -44,5 +45,4 @@ group :development, :test do
 	gem 'rack_session_access'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'newrelic_rpm'
 end
