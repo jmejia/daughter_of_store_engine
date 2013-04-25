@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
   def index
     @stores = Store.order("name")
 
-    @store = Store.find(params[:store_id])
+    @store = Store.find_by_slug(params[:store_slug])
     if @store.nil? || @store.pending?
       render file: "#{Rails.root}/public/404", formats: :html, status: 404
     elsif @store.disabled?

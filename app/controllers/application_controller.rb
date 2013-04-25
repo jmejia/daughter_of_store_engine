@@ -40,7 +40,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_store
-    #reset_session
     unless @current_store.nil?
       if session[:carts] && session[:carts][current_store.id]
         cart_id = session[:carts][current_store.id]
@@ -52,7 +51,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_store
-    @current_store ||= Store.find(params[:store_id])
+    @current_store ||= Store.find_by_slug(params[:store_slug])
   end
 
 end

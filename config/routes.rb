@@ -5,6 +5,12 @@ StoreEngine::Application.routes.draw do
   resources :users
 
   namespace :admin do
+    resources :invoices, :only => [:index, :show] do
+      collection do
+        post :generate_invoices, :as => :generate
+      end
+    end
+
     get "dashboard" => "dashboard#show"
     resources :stores do
       put :activate
@@ -33,17 +39,6 @@ StoreEngine::Application.routes.draw do
 
   resources :carts
 
-  #  resources :products do
-  #    member do
-  #      put :retire
-  #      put :unretire
-  #    end
-  #  end
-
-  #get "all_products" => "products#list"
-
-
-
   get "profile" => "users#show"
   match "edit/profile" => "users#edit"
 
@@ -51,17 +46,13 @@ StoreEngine::Application.routes.draw do
   resource :session
 
   get "my_cart" => "carts#show"
-  # get "my_trip" => "trips#show"
 
-  # get "admin" => "products#index", :as => "admin"
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
   get "search" => "search#user_search", :as => "search"
 
-  # resources :stores
-
-  scope "/:store_id" do
+  scope "/:store_slug" do
 
     resources :categories
     get "/" => "products#index", as: "home"
@@ -69,12 +60,14 @@ StoreEngine::Application.routes.draw do
 
     namespace :admin do
       get "/" => "stores#show", :as => "home"
+
       resources :products do
         member do
           put :retire
           put :unretire
         end
       end
+
       resources :orders
       post "create_admin" => "stores#create_admin"
       get "new_admin" => "stores#new_admin"
@@ -85,5 +78,4 @@ StoreEngine::Application.routes.draw do
     end
   end
 
-  #  match "code" => redirect("http://www.github.com/jmejia/store_engine"), :as => :code
 end

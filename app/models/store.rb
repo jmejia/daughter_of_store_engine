@@ -6,6 +6,8 @@ class Store < ActiveRecord::Base
   has_many :products, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :carts, dependent: :destroy
+  has_many :invoices
+  has_many :orders
 
   validates_uniqueness_of :name, :slug
   validates_presence_of :name, :slug
@@ -68,9 +70,9 @@ class Store < ActiveRecord::Base
     slug
   end
 
-  def self.find(slug)
-    find_by_slug(slug)
-  end
+  # def self.find(slug)
+  #   find_by_slug(slug)
+  # end
 
   def pending?
     status == "pending"
