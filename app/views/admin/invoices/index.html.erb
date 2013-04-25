@@ -15,11 +15,15 @@
   </tr>
   <% @stores.each do |store| %>
   <tr class="invoice">
-    <td><%= store.name %></td>
+    <% if store.invoices.count >= 1 %>
+      <td><%= link_to store.name, admin_invoice_path(store.invoices.last) %></td>
+    <% else %>
+      <td><%= store.name %></td>
+    <% end %>
     <td><%= amount_in_dollars(fee(store.orders)) %></td>
       <td>
         <% if store.monthly_invoice %>
-          <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", 'data-id' => store.id)%>
+          <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", 'data-id' => store.monthly_invoice.id)%>
         <% end %>
       </td>
     <td>

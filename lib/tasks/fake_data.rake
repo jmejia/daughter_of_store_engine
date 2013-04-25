@@ -56,6 +56,11 @@ namespace :db do
         end
       end
 
+      user = User.create!(full_name: "Josh",
+                          password: "password",
+                          email: "joshua.mejia@gmail.com")
+      store.add_admin(user)
+
       2.times do |i|
         begin
           user = User.create!(full_name: Faker::Name.first_name,

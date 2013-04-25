@@ -6,6 +6,8 @@ class Admin::InvoicesController < ApplicationController
   end
 
   def show
+    @invoice = Invoice.find(params[:id])
+    @orders = @invoice.store.orders
   end
 
   def update
@@ -25,6 +27,7 @@ class Admin::InvoicesController < ApplicationController
     @stores.each do |store|
       orders = store.orders
       InvoiceService.create(orders)
+      UserMailer.delay.monthly_invoice(store)
     end
 
     redirect_to admin_invoices_path, :notice => "Your invoices have been created."
