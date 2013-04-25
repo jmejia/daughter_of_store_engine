@@ -136,6 +136,7 @@ GEM
     mime-types (1.21)
     multi_json (1.7.1)
     multipart-post (1.2.0)
+    newrelic_rpm (3.6.1.87)
     nokogiri (1.5.9)
     oauth (0.4.7)
     oauth2 (0.8.1)
@@ -298,6 +299,7 @@ DEPENDENCIES
   kaminari
   launchy
   less-rails
+  newrelic_rpm
   paperclip
   pg
   pry
