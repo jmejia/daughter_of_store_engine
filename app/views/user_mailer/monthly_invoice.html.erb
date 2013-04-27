@@ -1,6 +1,22 @@
 <p>Hello <%= @admin.full_name %>!</p>
 
-<p>Your monthly invoice for <%= @store.name %> is ready for viewing by visiting http://dose-gates.herokuapp.com/admin/invoices/<%= @invoice.id %>.  Remember, payments are due by the 15th!</p>
+<p>Your monthly invoice for <%= @store.name %> is ready. Here is the summary:</p>
+
+<table class="table">
+  <tr>
+    <td><strong>Total Orders:</strong></td>
+    <td><%= @invoice.store.orders.count %></td>
+  </tr>
+  <tr>
+    <td><strong>Total Revenue:<strong></td>
+    <td><%= number_to_currency(@invoice.total_revenue.to_f / 100) %></td>
+  </tr>
+    <td><strong>Epic Store's Fee:</strong></td>
+    <td><%= number_to_currency(@invoice.total_revenue.to_f / 100 * 0.05) %></td>
+  </tr>
+</table>
+
+<p>You can also review the full invoice and order details by visiting http://dose-gates.herokuapp.com/admin/invoices/<%= @invoice.id %>. Remember, payments are due by the 15th!</p>
 
 <p>Thanks!</p>
 <p>Epic Sale</p>

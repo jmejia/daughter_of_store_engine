@@ -6,6 +6,7 @@ class Invoice < ActiveRecord::Base
                   :fee_amount
 
   belongs_to :store
+  has_many :orders
 
 
 end
