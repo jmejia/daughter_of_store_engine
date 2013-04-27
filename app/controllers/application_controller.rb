@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
 
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = "You can't ford that river (Access denied)"
+    flash[:error] = "Sorry, only Epic Sale admins may access this page."
     redirect_to root_url
   end
 
