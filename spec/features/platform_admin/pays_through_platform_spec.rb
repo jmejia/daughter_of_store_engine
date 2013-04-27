@@ -36,7 +36,30 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
     end
 
     it "shows a 'Pay Invoice' button" do
-      page.should have_content("Pay Invoice")
+      expect(page).to have_content("Pay Invoice")
+    end
+  end
+
+  context "when invoices are generated and I visit a store" do
+    before(:each) do
+      InvoiceService.should_receive(:create)
+      click_button("Generate Invoices")
+      click_link("Oregon Sale")
+    end
+
+    context "when I click the 'Pay Invoice' button" do
+      before(:each) do
+        click_link("Pay Invoice")
+      end
+
+      it "redirects to the invoice payment page when I click the 'Pay Invoice' button"  do
+        expect(page).to have_button("Submit Payment")
+      end
+
+      it "displays a message when I pay an invoice" do
+        click_button("Submit Payment")
+        expect(page).to have_content("Your invoice has been successfully paid.")
+      end
     end
   end
 end
