@@ -28,6 +28,21 @@ class Admin::InvoicesController < ApplicationController
     end
   end
 
+  def pay
+    @invoice = Invoice.find(params[:id])
+    @fee     = params[:fee]
+  end
+
+  def submit_payment
+    invoice = Invoice.find(params[:id])
+
+    if invoice.update_attributes(params[:invoice])
+      redirect_to admin_invoice_path(invoice), :notice => "Your invoice has been successfully paid."
+    else
+      render :pay, :notice => "We were unable to process your payment."
+    end
+  end
+
   def generate_invoices
     @stores = Store.all
 
