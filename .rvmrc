@@ -1,1 +1,1 @@
-rvm use 1.9.3@store_engine --create
+rvm gemset use store_engine --create
