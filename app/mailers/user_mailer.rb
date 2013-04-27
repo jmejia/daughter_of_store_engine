@@ -50,10 +50,16 @@ class UserMailer < ActionMailer::Base
     mail to: user.email
   end
 
-  def monthly_invoice(store)
+  def store_disabled(store, admin)
     @store = store
-    @admin = store.admins.first
+    @admin = admin
+    mail to: admin.email
+  end
+
+  def monthly_invoice(store, admin)
+    @store = store
+    @admin = admin
     @invoice = store.invoices.last
-    mail to: store.admins.first.email
+    mail to: admin.email
   end
 end

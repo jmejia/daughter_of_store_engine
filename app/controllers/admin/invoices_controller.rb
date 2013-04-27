@@ -34,7 +34,9 @@ class Admin::InvoicesController < ApplicationController
     @stores.each do |store|
       orders = store.orders
       InvoiceService.create(orders)
-      UserMailer.delay.monthly_invoice(store)
+      store.admins.each do |admin|
+        UserMailer.delay.monthly_invoice(admin)
+      end
     end
 
     redirect_to admin_invoices_path, :notice => "Your invoices have been created."
