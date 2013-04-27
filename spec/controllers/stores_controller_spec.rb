@@ -31,7 +31,7 @@ describe StoresController do
 
   describe "GET edit" do
     it "assigns the requested store as @store" do
-      get :edit, {:id => store.to_param}, valid_session
+      get :edit, {:id => store.id}, valid_session
       assigns(:store).should eq(store)
     end
   end

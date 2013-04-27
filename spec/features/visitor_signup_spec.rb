@@ -5,7 +5,7 @@ feature "StoreEngine visitor creates a new account", %q{
   And I am on a particular page
 } do
 
-  let(:store) { FactoryGirl.create(:store, status: "enabled") }
+  let(:store) { FactoryGirl.create(:store, status: "enabled", slug: "slug") }
 
   background do
     visit home_path(store)
@@ -30,7 +30,7 @@ feature "StoreEngine visitor creates a new account", %q{
     end
 
     within("div.main_nav") do
-      expect(find('a:last')['href']).to include(logout_path)
+      expect(all("a")[1]['href']).to include("logout")
     end
 
   end
