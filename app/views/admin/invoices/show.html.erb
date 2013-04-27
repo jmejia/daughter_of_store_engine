@@ -1,17 +1,29 @@
 <div class="well well-large">
-  <table class="table">
-    <thead>
-      <h2>Invoice for <%= @invoice.store.name %></h2><br>
-      <% if @invoice.status == false %>
-        <%= link_to "Pay Invoice", pay_admin_invoice_path(@invoice, :fee => (total_order_amount(@orders) * 0.05)), :method => "GET", class: "btn btn-primary pull-right" %>
-        <% else %>
-        <h4 class="invoice_paid pull-right">Invoice Paid</h4>
-      <% end %>
-      <h4>Order breakdown</h4>
-    </thead>
+  <h3>Invoice for <%= @invoice.store.name %></h3><br>
+    <% if @invoice.status == false %>
+      <%= link_to "Pay Invoice", pay_admin_invoice_path(@invoice, :fee => (total_order_amount(@orders) * 0.05)), :method => "GET", class: "btn btn-primary pull-right" %>
+    <% else %>
+      <h4 class="invoice_paid pull-right">Invoice Paid</h4>
+    <% end %>
+  <h4>Summary</h4>
+    <table>
+      <tr>
+        <td><strong>Total Orders:</strong></td>
+        <td><%= @invoice.store.orders.count %></td>
+      </tr>
+      <tr>
+        <td><strong>Total Revenue:<strong></td>
+        <td><%= number_to_currency(@invoice.total_revenue.to_f / 100) %></td>
+      </tr>
+        <td><strong>Epic Store's Fee:</strong></td>
+        <td><%= number_to_currency(@invoice.total_revenue.to_f / 100 * 0.05) %></td>
+      </tr>
+    </table><br>
+    <h4>Details</h4>
+    <table class="table table-striped">
     <tr>
       <th><h4>Order ID</h4></th>
-      <th><h4>Total Cost</h4></th>
+      <th><h4>Total Revenue</h4></th>
       <th><h4>Epic Store's Fee</h4></th>
     </tr>
     <% @orders.each do |order| %>
@@ -22,9 +34,9 @@
     </tr>
     <% end %>
     <tr>
-      <td><h4>Total</h4></td>
-      <td><h4><%= amount_in_dollars(total_order_amount(@orders)) %></h4></td>
-      <td><h4><%= total = amount_in_dollars(total_order_amount(@orders) * 0.05) %></h4></td>
+      <td><h3>Total</h3></td>
+      <td><h3><%= amount_in_dollars(total_order_amount(@orders)) %></h3></td>
+      <td><h3><font color="red"><%= total = amount_in_dollars(total_order_amount(@orders) * 0.05) %></h3></td>
     </tr>
   </table>
 <% if @invoice.status == false %>

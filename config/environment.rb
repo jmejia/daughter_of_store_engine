@@ -7,9 +7,9 @@ StoreEngine::Application.initialize!
 ActionMailer::Base.smtp_settings = {
   address: "smtp.gmail.com",
   port: 587,
-  domain: "oregonsale.herokuapp.com",
+  domain: "dose-gates.herokuapp.com",
   authentication: "plain",
   enable_starttls_auto: true,
-  user_name: "oregontrailsale@gmail.com",
-  password: "dysent4ry"
+  user_name: "epic.sale.dose.gates@gmail.com",
+  password: "dosegates"
 }
