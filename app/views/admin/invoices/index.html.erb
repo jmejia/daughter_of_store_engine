@@ -1,5 +1,5 @@
 <div class="well well-large">
-<table class="table">
+<table class="table table-striped">
   <thead>
     <h1>Invoices</h1>
     <hr>
@@ -43,7 +43,15 @@
     </td>
   </tr>
   <% end %>
+  <tr>
+    <td><h3>Total Fees Owed</h3></td>
+    <td><h3><%= amount_in_dollars(total_fees(@stores)) %></h3></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr="outstanding">
+    <td><h3><font color = "red">Total Outstanding</h3></td>
+    <td><h3><font color = "red">We'll calculate this shit later</h3></td>
+  </tr>
 </table>
-<hr>
-<h4>Total Owed <%= amount_in_dollars(total_fees(@stores)) %></h4>
 </div>
