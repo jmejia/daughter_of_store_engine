@@ -250,23 +250,23 @@ LineItem.create!(product_id: 23, cart_id: nil,
   order_id: 10, quantity: 6, price: 10)
 
 #ORDERS
-Order.create!(status: "pending", user_id: 1, total_cost: 3372, store_id: 1)
-Order.create!(status: "pending", user_id: 4, total_cost: 7375, store_id: 1)
-Order.create!(status: "cancelled", user_id: 1, total_cost: 4205, store_id: 1)
-Order.create!(status: "cancelled", user_id: 1, total_cost: 488, store_id: 1)
-Order.create!(status: "paid", user_id: 4, total_cost: 800, store_id: 2)
-Order.create!(status: "paid", user_id: 1, total_cost: 1138, store_id: 2)
-Order.create!(status: "shipped", user_id: 4, total_cost: 8, store_id: 2)
-Order.create!(status: "shipped", user_id: 4, total_cost: 16000, store_id: 2)
-Order.create!(status: "returned", user_id: 1, total_cost: 4844, store_id: 2)
-Order.create!(status: "returned", user_id: 4, total_cost: 460, store_id: 2)
+Order.create!(status: "pending", user_id: 1, total_cost: 3372, store_id: 1, created_at: "2013-03-01 00:00:00")
+Order.create!(status: "pending", user_id: 4, total_cost: 7375, store_id: 1, created_at: "2013-03-05 00:00:00")
+Order.create!(status: "cancelled", user_id: 1, total_cost: 4205, store_id: 1, created_at: "2013-03-31 00:00:00")
+Order.create!(status: "cancelled", user_id: 1, total_cost: 488, store_id: 1, created_at: "2013-03-02 00:00:00")
+Order.create!(status: "paid", user_id: 4, total_cost: 800, store_id: 2, created_at: "2013-03-01 00:00:00")
+Order.create!(status: "paid", user_id: 1, total_cost: 1138, store_id: 2, created_at: "2013-03-01 00:00:00")
+Order.create!(status: "shipped", user_id: 4, total_cost: 8, store_id: 2, created_at: "2013-03-01 00:00:00")
+Order.create!(status: "shipped", user_id: 4, total_cost: 16000, store_id: 2, created_at: "2013-03-01 00:00:00")
+Order.create!(status: "returned", user_id: 1, total_cost: 4844, store_id: 2, created_at: "2013-03-01 00:00:00")
+Order.create!(status: "returned", user_id: 4, total_cost: 460, store_id: 2, created_at: "2013-03-01 00:00:00")
 
 #ROLES
 Role.create!(title: "admin")
 Role.create!(title: "stocker")
 
 #INVOICES
-Invoice.create!(store_id: 1, start_date: Date.new(2010,10,01), end_date: Date.new(2010,10,20), total_revenue: 300, fee_amount: 15)
+#Invoice.create!(store_id: 1, start_date: Date.new(2010,10,01), end_date: Date.new(2010,10,20), total_revenue: 300, fee_amount: 15)
 
 #USER ROLES
 UserStore.create!(user_id: 1, store_id: 1, role_id: 1)
