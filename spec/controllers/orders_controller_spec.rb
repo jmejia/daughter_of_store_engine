@@ -46,7 +46,7 @@ describe OrdersController do
 
     context "with valid params" do
 
-      let(:order) {Order.new}
+      let(:order) {Order.create!(status: "pending", user_id: nil, total_cost: 15000, store_id: 1)}
 
       before do
         order.should_receive(:valid?).and_return(true)
@@ -59,7 +59,7 @@ describe OrdersController do
         it "redirects to the order summary" do
           Order.should_receive(:create_visitor_order).with(kind_of(Cart), "foo@bar.com", "42").and_return(order)
           post :create, checkout_attributes
-          expect(response).to redirect_to order
+          expect(response).to redirect_to order_path(order.id)
         end
       end
 
@@ -69,7 +69,7 @@ describe OrdersController do
           login_user(user)
           Order.should_receive(:create_from_cart_for_user).and_return(order)
           post :create, {:order => valid_attributes}
-          expect(response).to redirect_to order
+          expect(response).to redirect_to order_path(order.id)
         end
 
       end

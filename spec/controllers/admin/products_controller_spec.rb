@@ -111,7 +111,7 @@ describe Admin::ProductsController do
 
       it "assigns the requested product as @product" do
         put :update, {:id => product.to_param, :product => valid_attributes,
-        :store_id  => store.to_param}
+        :store_slug => store.to_param}
         assigns(:product).should eq(product)
       end
 

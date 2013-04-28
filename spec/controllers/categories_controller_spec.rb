@@ -21,7 +21,7 @@ describe CategoriesController do
   describe "GET index" do
     it "assigns all categories as @categories" do
       categories = []
-      get :index, store_id: slug
+      get :index, store_slug: slug
       assigns(:categories).should eq(categories)
     end
   end
@@ -33,14 +33,14 @@ describe CategoriesController do
       categories.should_receive(:order).with("name").and_return(categories)
       categories.should_receive(:find).with("1").and_return(category)
       subject.should_receive(:categories).at_least(:twice).and_return(categories)
-      get :show, {store_id: slug, :id => 1}
+      get :show, {store_slug: slug, :id => 1}
       assigns(:category).should eq(category)
     end
   end
 
   describe "GET new" do
     it "assigns a new category as @category" do
-      get :new, {store_id: slug}
+      get :new, {store_slug: slug}
       assigns(:category).should be_a_new(Category)
     end
   end
@@ -51,7 +51,7 @@ describe CategoriesController do
       categories = stub(:categories)
       categories.should_receive(:find).with(category.id.to_s).and_return(category)
       subject.should_receive(:categories).twice.and_return(categories)
-      get :edit, {store_id: slug, id: category.id}
+      get :edit, {store_slug: slug, id: category.id}
       assigns(:category).should eq(category)
     end
   end
@@ -75,7 +75,7 @@ describe CategoriesController do
 
       it "redirects to the created category" do
         subject.should_receive(:store_category_path).with(category).and_return(root_path)
-        post :create, {store_id: slug, category: valid_attributes}
+        post :create, {store_slug: slug, category: valid_attributes}
       end
 
     end
@@ -84,7 +84,7 @@ describe CategoriesController do
       it "assigns a newly created but unsaved category as @category" do
         # Trigger the behavior that occurs when invalid params are submitted
         category.stub(:save).and_return(false)
-        post :create, {store_id: slug,
+        post :create, {store_slug: slug,
           :category => { "name" => "invalid value" }}
         assigns(:category).should be_a_new(Category)
       end
@@ -112,7 +112,7 @@ describe CategoriesController do
        end
 
       it "assigns the requested category as @category" do
-        put :update, {store_id: slug, id: category.id, category: valid_attributes}
+        put :update, {store_slug: slug, id: category.id, category: valid_attributes}
         assigns(:category).should eq(category)
       end
 
@@ -123,7 +123,7 @@ describe CategoriesController do
       it "assigns the category as @category" do
 
         category.stub(:update_attributes).and_return(false)
-        put :update, {store_id: slug, :id => category.id, :category => { "name" => "invalid value" }}
+        put :update, {store_slug: slug, :id => category.id, :category => { "name" => "invalid value" }}
         assigns(:category).should eq(category)
       end
     end
@@ -142,7 +142,7 @@ describe CategoriesController do
       subject.should_receive(:categories).at_least(:twice).and_return(categories)
       subject.should_receive(:store_categories_path).and_return(root_path)
 
-      delete :destroy, {store_id: slug, id: category.id }
+      delete :destroy, {store_slug: slug, id: category.id }
     end
 
   end

@@ -3,7 +3,7 @@ class Admin::InvoicesController < ApplicationController
 
   def index
     @invoices = Invoice.all
-    @stores = Store.all
+    @stores = Store.all(:include => :orders)
   end
 
   def show
@@ -22,7 +22,7 @@ class Admin::InvoicesController < ApplicationController
 
     if invoice.update_attributes(params[:invoice])
       #  render :json => {:status => "success", :notice => "Successfully changed status of invoice."}
-      flash.now[:notice] = "Successfully changed status of invoice."
+      flash.now[:alert] = "Successfully changed status of invoice."
     else
       flash.now[:error] = "Unable to mark invoice as paid"
     end

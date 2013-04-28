@@ -14,10 +14,4 @@ window.Invoices =
       type: "PUT"
       url: "/admin/invoices/#{@id}"
       data: {invoice: {status: self.checkbox_status}}
-      dataType: 'json'
-
-
-
-
-
-
+      dataType: 'script'
