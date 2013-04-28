@@ -6,7 +6,7 @@
       <h4 class="invoice_paid pull-right">Invoice Paid</h4>
     <% end %>
   <h4>Summary</h4>
-    <table>
+    <table class="summary">
       <tr>
         <td><strong>Total Orders:</strong></td>
         <td><%= @invoice.store.orders.count %></td>
@@ -33,7 +33,7 @@
       <td><%= amount_in_dollars(order.total_cost * 0.05) %></td>
     </tr>
     <% end %>
-    <tr>
+    <tr class="total owed">
       <td><h3>Total</h3></td>
       <td><h3><%= amount_in_dollars(total_order_amount(@orders)) %></h3></td>
       <td><h3><font color="red"><%= total = amount_in_dollars(total_order_amount(@orders) * 0.05) %></h3></td>
