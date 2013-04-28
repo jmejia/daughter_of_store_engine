@@ -88,18 +88,29 @@ describe Store do
                               user_id: 1,
                               total_cost: 2000,
                               store_id: subject.id)}
+
+    let(:random_order){Order.create!(status: "paid",
+                              user_id: 1,
+                              total_cost: 2000,
+                              store_id: 5000)}
+
     let(:last_month){ 1.month.ago.beginning_of_month }
 
-    before do
-      order1.created_at = last_month
-      order1.save
-      order2.created_at = last_month
-      order2.save
-    end
+    context "Current month" do
+      before do
+        order1.created_at = last_month
+        order1.save
+        order2.created_at = last_month.end_of_month
+        order2.save
+        order2.created_at = last_month
+        order2.save
+      end
 
-    it "calculates the monthly fee based on all orders within that month" do
-      puts subject.orders.first.created_at
-      expect(subject.monthly_fee(last_month)).to eq(3000 * 0.05)
+      it "calculates the monthly fee based on all orders within that month" do
+        puts subject.orders.first.created_at
+        expect(subject.monthly_fee(last_month)).to eq(3000 * 0.05)
+      end
+
     end
   end
 

@@ -19,7 +19,8 @@ class Store < ActiveRecord::Base
   end
 
   def monthly_fee(start_date)
-    order_fee = orders.inject(0){ |sum, order| sum + order.total_cost }
+    monthly_orders = orders.where(:created_at => start_date.beginning_of_day..start_date.end_of_month)
+    order_fee = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
     order_fee * 0.05
   end
 
