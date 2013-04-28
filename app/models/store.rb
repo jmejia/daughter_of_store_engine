@@ -14,11 +14,11 @@ class Store < ActiveRecord::Base
 
   def monthly_invoice(start_date=nil, end_date=nil)
     start_date ||= 1.month.ago.beginning_of_month
-    end_date ||= Date.today.next_month.beginning_of_month
+    end_date ||= start_date.end_of_month
     self.invoices.where("start_date between ? and ?", start_date, end_date).first
   end
 
-  def monthly_fee
+  def monthly_fee(start_date)
     order_fee = orders.inject(0){ |sum, order| sum + order.total_cost }
     order_fee * 0.05
   end
