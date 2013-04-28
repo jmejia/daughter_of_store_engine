@@ -9,6 +9,12 @@ tr.total.owed {
   border-top: 0;
 }
 
+.table-striped tbody > tr.total.owed:nth-child(odd) > td,
+.table-striped tbody > tr.total.owed:nth-child(odd) > th {
+  background-color: #f5f5f5;
+  border-top: 0;
+}
+
 table.summary td {
   padding-bottom: 5px;
   padding-right: 15px;
