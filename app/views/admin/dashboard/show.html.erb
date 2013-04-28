@@ -2,5 +2,7 @@
   <h2>Administer:</h2>
   <%= link_to "Stores", admin_stores_path, :class => "btn btn-primary" %>
   <h2>Revenue Dashboard:</h2>
-  <%= link_to "Invoices", admin_invoices_path, :class => "btn btn-primary" %>
+  <%= link_to "Invoices", monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                                      month: Date.today.strftime("%m")),
+                                                      class: "btn btn-primary" %>
 </div>

@@ -3,8 +3,9 @@ class Admin::InvoicesController < ApplicationController
 
   def index
     @url_date = Date.new(params[:year].to_i, params[:month].to_i)
-    @invoices = Invoice.all
-    @stores = Store.all(:include => :orders)
+    @previous_month_start_date = @url_date - 1.month
+    @total_fees = Order.total_monthly_fees(@previous_month_start_date)
+    @stores = Store.all
   end
 
   def show
@@ -55,7 +56,7 @@ class Admin::InvoicesController < ApplicationController
       end
     end
 
-    redirect_to admin_invoices_path, :notice => "Your invoices have been created."
+    redirect_to :back, :notice => "Your invoices have been created."
   end
 
   private
