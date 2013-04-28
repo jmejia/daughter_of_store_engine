@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= content_for?(:title) ? yield(:title) : "OregonSale" %></title>
+  <title><%= content_for?(:title) ? yield(:title) : "EpicSale" %></title>
   <%= csrf_meta_tags %>
   <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
 
@@ -69,10 +69,8 @@
 
     <%= yield %>
 
-    <div class="row">
-      <div class="well well-small">
-        <a href="https://github.com/lalalainexd/son_of_store_engine" target="_blank">View Code</a>
-      </div>
+    <div class="well well-small">
+      <a href="https://github.com/jmejia/daughter_of_store_engine" target="_blank">View Code</a>
     </div>
   </div>
 
