@@ -20,7 +20,7 @@
     <% else %>
       <td><%= store.name %></td>
     <% end %>
-    <td><%= amount_in_dollars(store.monthly_fee) %></td>
+    <td><%= amount_in_dollars(store.monthly_fee(1.month.ago.beginning_of_month)) %></td>
       <td>
         <% if store.monthly_invoice %>
           <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", 'data-id' => store.monthly_invoice.id)%>
