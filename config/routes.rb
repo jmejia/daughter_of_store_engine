@@ -44,17 +44,16 @@ StoreEngine::Application.routes.draw do
 
   resources :carts
 
-  get "profile" => "users#show"
+  get "profile"        => "users#show"
   match "edit/profile" => "users#edit"
-
 
   resource :session
 
   get "my_cart" => "carts#show"
 
-  get "logout" => "sessions#destroy", :as => "logout"
-  get "login" => "sessions#new", :as => "login"
-  get "signup" => "users#new", :as => "signup"
+  get "logout" => "sessions#destroy",   :as => "logout"
+  get "login"  => "sessions#new",       :as => "login"
+  get "signup" => "users#new",          :as => "signup"
   get "search" => "search#user_search", :as => "search"
 
   scope "/:store_slug" do
@@ -74,13 +73,13 @@ StoreEngine::Application.routes.draw do
       end
 
       resources :orders
-      post "create_admin" => "stores#create_admin"
-      get "new_admin" => "stores#new_admin"
-      delete "remove_admin" => "stores#remove_admin"
-      post "create_stocker" => "stores#create_stocker"
-      get "new_stocker" => "stores#new_stocker"
+
+      post "create_admin"     => "stores#create_admin"
+      get "new_admin"         => "stores#new_admin"
+      delete "remove_admin"   => "stores#remove_admin"
+      post "create_stocker"   => "stores#create_stocker"
+      get "new_stocker"       => "stores#new_stocker"
       delete "remove_stocker" => "stores#remove_stocker"
     end
   end
-
 end

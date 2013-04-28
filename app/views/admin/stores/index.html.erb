@@ -30,7 +30,7 @@
                             :method => :put,
                             :class => "btn btn-mini btn-danger"%>
               <% else %>
-                <%= link_to 'Edit', edit_store_path(store), :class => 'btn btn-mini' %>
+                <%= link_to 'Edit', edit_store_path(store.id), :class => 'btn btn-mini' %>
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                             store_path(store),
                             :method => 'delete',

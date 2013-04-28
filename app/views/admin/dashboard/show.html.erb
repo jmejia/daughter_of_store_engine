@@ -1,6 +1,7 @@
 <div class="well well-large">
-  <h2>Administer:</h2>
-  <%= link_to "Stores", admin_stores_path, :class => "btn btn-primary" %>
-  <h2>Revenue Dashboard:</h2>
-  <%= link_to "Invoices", admin_invoices_path, :class => "btn btn-primary" %>
+  <h2>Dashboard</h2>
+  <div class="btn-group">
+    <%= link_to "Stores (#{Store.all.count})", admin_stores_path, :class => "btn btn-primary" %>
+    <%= link_to "Invoices", admin_invoices_path, :class => "btn btn-primary" %>
+  </div>
 </div>

@@ -48,9 +48,11 @@ class Admin::InvoicesController < ApplicationController
 
     @stores.each do |store|
       orders = store.orders
-      InvoiceService.create(orders)
-      store.admins.each do |admin|
-        UserMailer.delay.monthly_invoice(admin)
+      unless orders.empty?
+        InvoiceService.create(orders)
+        store.admins.each do |admin|
+          UserMailer.delay.monthly_invoice(admin)
+        end
       end
     end
 
