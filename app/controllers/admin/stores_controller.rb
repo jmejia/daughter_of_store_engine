@@ -1,6 +1,6 @@
 class Admin::StoresController < ApplicationController
   load_and_authorize_resource
-  before_filter :store, except: [:index]
+  before_filter :store, except: [:index, :show]
 
   def index
     if current_user && current_user.platform_administrator
@@ -114,7 +114,7 @@ class Admin::StoresController < ApplicationController
 
   def disable
     authorize! :manage, Store
-    store = Store.find_by_slug(params[:store_id])
+    store = Store.find_by_slug(params[:store_slug])
     if store.disable_status
       redirect_to :back, notice: "#{store.name} has been disabled."
       # store = Store.find_by_slug(params[:store_id])

@@ -21,7 +21,7 @@ feature "Store administrator works with products as in StoreEngine", %q{
 
     page.set_rack_session(user_id: admin.id)
     store.add_admin(admin)
-    #store.add_stocker(stocker)
+    store.add_stocker(stocker)
     visit admin_products_path(store)
 
   end
@@ -36,7 +36,7 @@ feature "Store administrator works with products as in StoreEngine", %q{
   scenario "Admin adds a product" do
     click_link("New")
 
-    fill_in("Name", with: "A Third PRoduct")
+    fill_in("Name", with: "A Third Product")
     fill_in("Description", with: "this is another prodcut!")
     fill_in("Price", with: 3.50)
     check("product[category_ids][]") #stupid stupuid stupid this is stupid
