@@ -19,6 +19,6 @@ describe InvoiceService do
     expect(result.fee_percentage).to eq 5
     expect(result.start_date).to eq Date.new(2010,10,10)
     expect(result.end_date).to eq Date.new(2010,10,11)
-    expect(result.status).to eq "outstanding"
+    expect(result.status).to eq false
   end
 end

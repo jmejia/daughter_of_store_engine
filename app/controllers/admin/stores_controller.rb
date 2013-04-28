@@ -55,7 +55,7 @@ class Admin::StoresController < ApplicationController
   end
 
   def remove_stocker
-    stocker = @store.stocker(params[:id])
+    stocker = @store.stockers(params[:id])
 
     if stocker
       @store.remove_stocker(stocker)
