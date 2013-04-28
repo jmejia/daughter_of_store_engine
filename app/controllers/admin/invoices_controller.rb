@@ -1,14 +1,20 @@
 class Admin::InvoicesController < ApplicationController
-  before_filter :require_admin, except: [:show]
+  before_filter :require_admin, except: [:show, :store_invoices, :pay, :submit_payment]
 
   def index
     @invoices = Invoice.all
-    @stores = Store.all(:include => :orders)
+    @stores   = Store.all(:include => :orders)
+  end
+
+  def store_invoices
+    @store    = Store.find(params[:id])
+    @invoices = @store.invoices
   end
 
   def show
     @invoice = Invoice.find(params[:id])
-    @orders = @invoice.store.orders
+    @orders  = @invoice.store.orders
+
     if @invoice.store.admins.include?(current_user) || (current_user && current_user.platform_administrator)
       render 'show'
     else
@@ -29,6 +35,8 @@ class Admin::InvoicesController < ApplicationController
   end
 
   def pay
+    session[:return_to] = request.referer
+
     @invoice = Invoice.find(params[:id])
     @fee     = params[:fee]
   end
@@ -37,7 +45,7 @@ class Admin::InvoicesController < ApplicationController
     invoice = Invoice.find(params[:id])
 
     if invoice.update_attributes(params[:invoice])
-      redirect_to admin_invoice_path(invoice), :notice => "Your invoice has been successfully paid."
+      redirect_to session[:return_to], :notice => "Your invoice has been successfully paid."
     else
       render :pay, :notice => "We were unable to process your payment."
     end

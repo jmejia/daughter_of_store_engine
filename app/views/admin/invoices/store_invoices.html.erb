@@ -1,0 +1,51 @@
+<div class="well well-large">
+  <table class="table table-striped">
+    <thead>
+      <h1><%= @store.name %> Invoices</h1>
+    </thead>
+
+    <hr>
+
+    <tr>
+      <th><h4>#</h4></th>
+      <th colspan="2"><h4>Period</h4></th>
+      <th><h4>Total Revenue</h4></th>
+      <th><h4>Fee (%)</h4></th>
+      <th><h4>Fee Amount</h4></th>
+      <th><h4>Paid</h4></th>
+      <th><h4></h4></th>
+    </tr>
+
+    <% @invoices.each do |invoice| %>
+      <tr class="invoice">
+        <td><%= invoice.id %></td>
+        <td>From: <%= invoice.start_date.strftime("%d %b %y") %></td>
+        <td>To: <%= invoice.end_date.strftime("%d %b %y") %></td>
+        <td><%= amount_in_dollars(invoice.total_revenue) %></td>
+        <td><%= invoice.fee_percentage %> per cent</td>
+        <td><%= amount_in_dollars(invoice.fee_amount) %></td>
+        <td>
+          <% if invoice.status == false %>
+            <p>pending</p>
+          <% else %>
+            <p>paid</p>
+          <% end %>
+        </td>
+        <td>
+          <div class="btn-group pull-right">
+            <% if invoice.status == false %>
+              <%= link_to "Pay Invoice",
+                          pay_admin_invoice_path(invoice.id,
+                          :fee    => (invoice.fee_amount)),
+                          :method => "GET",
+                          class: "btn btn-success" %>
+            <% end %>
+            <%= link_to "Details",
+                        admin_invoice_path(invoice.id),
+                        class: "btn btn-success" %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
