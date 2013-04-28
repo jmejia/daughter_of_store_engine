@@ -23,15 +23,7 @@ describe "Platform Admin has Invoices Dashboard" do
   end
 
   it "displays the Invoices" do
-    click_link(href: admin_invoices_path)
+    click_link("Invoices")
     expect(current_path).to eq admin_invoices_path
   end
-
-  it "" do
-
-  end
-
-
-
-
 end

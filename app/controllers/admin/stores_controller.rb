@@ -114,9 +114,10 @@ class Admin::StoresController < ApplicationController
 
   def disable
     authorize! :manage, Store
+    store = Store.find_by_slug(params[:store_id])
     if store.disable_status
       redirect_to :back, notice: "#{store.name} has been disabled."
-      store = Store.find_by_slug(params[:store_id])
+      # store = Store.find_by_slug(params[:store_id])
       store.admins.each do |admin|
         UserMailer.delay.store_disabled(store, admin)
       end

@@ -83,7 +83,7 @@ describe Admin::StoresController do
     it "returns error if not successful" do
       Store.any_instance.stub(:valid?) {false}
       put :disable, {store_id: store}
-      expect(flash[:errors]).to be
+      expect(flash[:errors]).to include("There was a problem")
     end
   end
 
