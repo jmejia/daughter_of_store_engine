@@ -45,15 +45,21 @@
     </td>
   </tr>
   <% end %>
-  <tr>
+  <tr class="total owed">
     <td><h3>Total Fees Owed</h3></td>
     <td><h3><%= amount_in_dollars(total_fees(@stores)) %></h3></td>
     <td></td>
     <td></td>
   </tr>
-  <tr="outstanding">
+  <tr class="total outstanding">
     <td><h3><font color = "red">Total Outstanding</h3></td>
     <td><h3><font color = "red">We'll calculate this shit later</h3></td>
   </tr>
 </table>
 </div>
+
+<!--
+ <div>
+    <h3>Total Fees Owed: <%= amount_in_dollars(total_fees(@stores)) %></h3>
+    <h3><font color = "red">Total Outstanding: We'll calculate this shit later</h3>
+  </div> -->

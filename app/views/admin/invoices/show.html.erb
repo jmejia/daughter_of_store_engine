@@ -1,7 +1,7 @@
 <div class="well well-large">
   <h3>Invoice for <%= @invoice.store.name %></h3><br>
   <h4>Summary</h4>
-    <table>
+    <table class="summary">
       <tr>
         <td><strong>Total Orders:</strong></td>
         <td><%= @invoice.store.orders.count %></td>
