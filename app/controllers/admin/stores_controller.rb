@@ -116,6 +116,10 @@ class Admin::StoresController < ApplicationController
     authorize! :manage, Store
     if store.disable_status
       redirect_to :back, notice: "#{store.name} has been disabled."
+      store = Store.find_by_slug(params[:store_id])
+      store.admins.each do |admin|
+        UserMailer.delay.store_disabled(store, admin)
+      end
     else
       flash[:errors] = "We're sorry. There was a problem disabling #{store.name}."
       redirect_to admin_stores_path
