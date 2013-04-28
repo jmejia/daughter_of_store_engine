@@ -13,6 +13,7 @@ StoreEngine::Application.routes.draw do
 
       collection do
         post :generate_invoices, :as => :generate
+        get  :store_invoices, :as => :store
       end
     end
 

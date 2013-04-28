@@ -7,7 +7,7 @@
     <%= link_to "Products", admin_products_path(@store), class: 'btn btn-success' %>
     <%= link_to "Categories", categories_path(@store), class: 'btn btn-success' %>
     <% unless @invoice == nil %>
-      <%= link_to "Invoice", admin_invoice_path(@invoice), class: 'btn btn-success' %>
+      <%= link_to "Invoices", store_admin_invoices_path(id: @store.id), class: 'btn btn-success' %>
     <% end %>
   </div>
 
