@@ -10,10 +10,6 @@ class Order < ActiveRecord::Base
   has_one :visitor_order
   has_one :visitor, through: :visitor_order
 
-  def self.find(confirmation)
-    find_by_confirmation(confirmation)
-  end
-
   def to_param
     confirmation
   end

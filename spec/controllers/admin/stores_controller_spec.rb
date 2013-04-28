@@ -28,6 +28,7 @@ describe Admin::StoresController do
     UserStore.create!( { user_id: standard_user.id,
                         store_id: store.id,
                         role_id: role.id })
+    request.env["HTTP_REFERER"] = "http://test.host/admin/stores"
   end
 
 
@@ -107,7 +108,7 @@ describe Admin::StoresController do
                                           password: "password",
                                           platform_administrator: false} )}
 
-    let(:store) { Store.new}
+    let(:store) { Store.create!(slug: "slug", name: "TestStore")}
     before do
       @ability = Object.new
       @ability.extend(CanCan::Ability)
@@ -117,7 +118,6 @@ describe Admin::StoresController do
       UserStore.create( { user_id: standard_user.id,
                           store_id: store.id,
                           role_id: 1 })
-      Store.should_receive(:find).with("slug").and_return(store)
       subject.stub(:current_store)
     end
 
@@ -128,7 +128,6 @@ describe Admin::StoresController do
                          platform_administrator: false} )
 
       User.should_receive(:find_by_email).with(user.email).and_return(user)
-      store.should_receive(:add_admin).with(user)
       post :create_admin, store_slug: "slug", email: user.email
     end
   end

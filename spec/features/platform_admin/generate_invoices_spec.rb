@@ -16,7 +16,6 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
 
   context "when I click the 'generate invoices' button'" do
     before do
-      InvoiceService.should_receive(:create)
       click_button("Generate Invoices")
     end
 

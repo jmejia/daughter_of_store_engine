@@ -6,6 +6,11 @@ StoreEngine::Application.routes.draw do
 
   namespace :admin do
     resources :invoices do
+      member do
+        get :pay
+        put :submit_payment
+      end
+
       collection do
         post :generate_invoices, :as => :generate
       end

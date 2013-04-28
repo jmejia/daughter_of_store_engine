@@ -41,7 +41,7 @@ describe ProductsController do
 
   describe "GET show" do
     it "assigns the requested product as @product" do
-      get :show, {store_id: 42, :id => product.to_param}
+      get :show, {store_slug: "slug", :id => product.to_param}
       assigns(:product).should eq(product)
     end
   end

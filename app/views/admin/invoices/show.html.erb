@@ -1,5 +1,10 @@
 <div class="well well-large">
   <h3>Invoice for <%= @invoice.store.name %></h3><br>
+    <% if @invoice.status == false %>
+      <%= link_to "Pay Invoice", pay_admin_invoice_path(@invoice, :fee => (total_order_amount(@orders) * 0.05)), :method => "GET", class: "btn btn-primary pull-right" %>
+    <% else %>
+      <h4 class="invoice_paid pull-right">Invoice Paid</h4>
+    <% end %>
   <h4>Summary</h4>
     <table class="summary">
       <tr>
@@ -34,9 +39,11 @@
       <td><h3><font color="red"><%= total = amount_in_dollars(total_order_amount(@orders) * 0.05) %></h3></td>
     </tr>
   </table>
-
-<h4><p>Remember, your bill of <%= total %> is due by the 15th.</p>
-
-<p>Thanks!</p>
-<p>Epic Sale</p></h4>
+<% if @invoice.status == false %>
+  <h4>
+    <p>Remember, your bill of <%= total %> is due by the 15th.</p>
+    <p>Thanks!</p>
+    <p>Epic Sale</p>
+  </h4>
+<% end %>
 </div>
