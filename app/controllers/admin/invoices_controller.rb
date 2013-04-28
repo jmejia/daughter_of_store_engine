@@ -2,6 +2,7 @@ class Admin::InvoicesController < ApplicationController
   before_filter :require_admin, except: [:show]
 
   def index
+    @url_date = Date.new(params[:year].to_i, params[:month].to_i)
     @invoices = Invoice.all
     @stores = Store.all(:include => :orders)
   end
