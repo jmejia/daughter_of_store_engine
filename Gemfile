@@ -15,16 +15,16 @@ gem 'faker'
 gem 'kaminari'
 gem 'unicorn'
 gem 'newrelic_rpm'
+gem 'coffee-rails', '~> 3.2.1'
+gem 'uglifier', '>= 1.0.3'
 gem "bullet", :group => "development"
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
   gem "therubyracer"
   gem "less-rails"
   gem "twitter-bootstrap-rails"
   gem 'bootstrap_helper'
-  gem 'uglifier', '>= 1.0.3'
 end
 
 group :development, :test do
