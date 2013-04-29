@@ -22,8 +22,8 @@
     <% end %>
     <td><%= amount_in_dollars(store.monthly_fee(@previous_month_start_date)) %></td>
       <td>
-        <% if store.monthly_invoice %>
-          <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", :id => "status", 'data-id' => store.monthly_invoice.id)%>
+        <% if store.monthly_invoice(@previous_month_start_date) %>
+          <%= check_box_tag(:status, "paid", store.monthly_invoice(@previous_month_start_date).status, :class => "status", :id => "status", 'data-id' => store.monthly_invoice(@previous_month_start_date).id)%>
         <% end %>
       </td>
     <td>
@@ -47,13 +47,9 @@
   <% end %>
   <tr class="total owed">
     <td><h3>Total Fees Owed</h3></td>
-    <td><h3><%= amount_in_dollars(@total_fees) %></h3></td>
+    <td><h3><%= amount_in_dollars(@total_fees) %> (<span class="outstanding-balance"><%= amount_in_dollars(@outstanding_balance) %></span>)</h3></td>
     <td></td>
     <td></td>
-  </tr>
-  <tr class="total outstanding">
-    <td><h3><font color = "red">Total Outstanding</h3></td>
-      <td><h3><font color = "red"><%= amount_in_dollars(@outstanding_balance) %></h3></td>
   </tr>
 </table>
 </div>

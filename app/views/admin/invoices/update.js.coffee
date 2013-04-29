@@ -1,7 +1,8 @@
 <%- flash.each do |name, msg| %>
-  Invoices.notice = $('<div class="<%= name %> alert-success"><%= escape_javascript(flash.discard(name.to_sym)) %></div>')
+  Invoices.notice = $('<div class="<%= name %> alert-success"><%= escape_javascript(flash.discard(name.to_sym)) %></div>')
 
-  $('.flash_messages').append(Invoices.notice[0])
-  $(Invoices.notice[0]).delay(2000).fadeOut ()->
-    $(Invoices.notice).remove()
+  $('.flash_messages').append(Invoices.notice[0])
+  $(Invoices.notice[0]).delay(2000).fadeOut ()->
+    $(Invoices.notice).remove()
+    $('.outstanding-balance').text('<%= amount_in_dollars(@outstanding_balance)%>')
 <%- end %>
