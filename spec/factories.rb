@@ -51,6 +51,4 @@ FactoryGirl.define do
     password_confirmation "password"
     platform_administrator true
   end
-
-
 end
