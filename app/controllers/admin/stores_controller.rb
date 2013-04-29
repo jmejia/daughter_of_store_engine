@@ -35,7 +35,8 @@ class Admin::StoresController < ApplicationController
   end
 
   def remove_admin
-    admin = @store.admin(params[:id])
+    @store = Store.find_by_slug(params[:store_slug])
+    admin = User.find(params[:users])
 
     if admin && @store.admins.count > 1
       @store.remove_admin(admin)
@@ -55,7 +56,8 @@ class Admin::StoresController < ApplicationController
   end
 
   def remove_stocker
-    stocker = @store.stockers(params[:id])
+    @store = Store.find_by_slug(params[:store_slug])
+    stocker = User.find(params[:users])
 
     if stocker
       @store.remove_stocker(stocker)
