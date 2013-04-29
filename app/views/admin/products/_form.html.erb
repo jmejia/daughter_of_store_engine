@@ -1,6 +1,6 @@
 
 <%= form_for [:admin, @product],
-  url: (@product.new_record? ? admin_products_path(params[:store_id]) : admin_product_path(params[:store_id], @product.id)),
+  url: (@product.new_record? ? admin_products_path(params[:store_slug]) : admin_product_path(params[:store_slug], @product.id)),
         :html => {class: 'form-horizontal', multipart: true } do |f| %>
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>

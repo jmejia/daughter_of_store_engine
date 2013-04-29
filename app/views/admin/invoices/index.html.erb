@@ -13,7 +13,7 @@
     <th>Paid</th>
     <th>Actions</th>
   </tr>
-  <% @stores.each do |store| %>
+  <% @stores.sort.each do |store| %>
   <tr class="invoice">
     <% if store.invoices.count >= 1 %>
       <td><%= link_to store.name, admin_invoice_path(store.invoices.last) %></td>
@@ -23,7 +23,7 @@
     <td><%= amount_in_dollars(store.monthly_fee(@previous_month_start_date)) %></td>
       <td>
         <% if store.monthly_invoice %>
-          <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", 'data-id' => store.monthly_invoice.id)%>
+          <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", :id => "status", 'data-id' => store.monthly_invoice.id)%>
         <% end %>
       </td>
     <td>

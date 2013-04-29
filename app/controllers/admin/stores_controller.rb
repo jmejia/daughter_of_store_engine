@@ -1,6 +1,6 @@
 class Admin::StoresController < ApplicationController
   load_and_authorize_resource
-  before_filter :store, except: [:index]
+  before_filter :store, except: [:index, :show]
 
   def index
     if current_user && current_user.platform_administrator
@@ -37,7 +37,8 @@ class Admin::StoresController < ApplicationController
   end
 
   def remove_admin
-    admin = @store.admin(params[:id])
+    @store = Store.find_by_slug(params[:store_slug])
+    admin = User.find(params[:users])
 
     if admin && @store.admins.count > 1
       @store.remove_admin(admin)
@@ -57,7 +58,8 @@ class Admin::StoresController < ApplicationController
   end
 
   def remove_stocker
-    stocker = @store.stocker(params[:id])
+    @store = Store.find_by_slug(params[:store_slug])
+    stocker = User.find(params[:users])
 
     if stocker
       @store.remove_stocker(stocker)
@@ -116,9 +118,10 @@ class Admin::StoresController < ApplicationController
 
   def disable
     authorize! :manage, Store
+    store = Store.find_by_slug(params[:store_id])
     if store.disable_status
       redirect_to :back, notice: "#{store.name} has been disabled."
-      store = Store.find_by_slug(params[:store_id])
+      # store = Store.find_by_slug(params[:store_id])
       store.admins.each do |admin|
         UserMailer.delay.store_disabled(store, admin)
       end

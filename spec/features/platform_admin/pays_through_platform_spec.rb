@@ -32,7 +32,8 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
     before do
       InvoiceService.should_receive(:create)
       click_button("Generate Invoices")
-      visit admin_invoice_path(1)
+      invoice = Invoice.last
+      visit admin_invoice_path(invoice)
     end
 
     it "shows a 'Pay Invoice' button" do
