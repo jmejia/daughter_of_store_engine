@@ -82,8 +82,15 @@
           <td><%= stocker.email %></td>
           <td>
             <% unless @store.stocker(current_user)%>
+<<<<<<< HEAD
               <%= button_to "Remove Stocker", admin_remove_stocker_path(@store, id: stocker.id), {:class => 'btn btn-danger', method: :delete, confirm: "Are you sure you want remove #{stocker.full_name} as a stocker?" }%>
             <% end %>
+=======
+              <%= button_to "Remove Stocker", admin_remove_stocker_path(@store, stocker.id),
+                {:class => 'btn btn-danger', method: :delete,
+                  confirm: "Are you sure you want remove #{stocker.full_name} as a stocker?" }%>
+          <% end %>
+>>>>>>> 9d8de42f3fa6ff864c9885adcf96d59d0366f0f4
           </td>
         </tr>
       <% end %>

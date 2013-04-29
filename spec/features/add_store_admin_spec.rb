@@ -26,7 +26,6 @@ feature "Store administrator adds a new admin", %q{
   scenario "Adding an admin with a StoreEngine user account" do
     fill_in("Email", with: new_admin.email)
 
-    delay.should_receive(:new_admin_notification).with(new_admin, store)
     click_button("Add Admin")
 
     page.set_rack_session(user_id: new_admin.id)

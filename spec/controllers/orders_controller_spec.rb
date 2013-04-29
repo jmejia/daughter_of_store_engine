@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OrdersController do
-  let(:user) {User.create(full_name: "josh", email: "josh@example.com", role: "user")}
+  let!(:user) {User.create(full_name: "josh", email: "josh@example.com", role: "user")}
   let(:cart) {Cart.new}
 
   def valid_attributes

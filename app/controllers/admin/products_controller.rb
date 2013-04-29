@@ -1,8 +1,8 @@
 class Admin::ProductsController < ApplicationController
 
   def index
-    if current_store.admins.include?(current_user)
-    @dashboard = Dashboard.new(current_store, current_user)
+    if current_store.users.include?(current_user)
+      @dashboard = Dashboard.new(current_store, current_user)
     else
       flash[:error] = "Sorry, only store admins may access this page."
       redirect_to root_url

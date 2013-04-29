@@ -71,6 +71,11 @@ StoreEngine::Application.routes.draw do
     namespace :admin do
       get "/" => "stores#show", :as => "home"
 
+      scope "/:users" do
+        delete "remove_stocker" => "stores#remove_stocker"
+        delete "remove_admin" => "stores#remove_admin"
+      end
+
       resources :products do
         member do
           put :retire
@@ -79,13 +84,10 @@ StoreEngine::Application.routes.draw do
       end
 
       resources :orders
-
-      post "create_admin"     => "stores#create_admin"
-      get "new_admin"         => "stores#new_admin"
-      delete "remove_admin"   => "stores#remove_admin"
-      post "create_stocker"   => "stores#create_stocker"
-      get "new_stocker"       => "stores#new_stocker"
-      delete "remove_stocker" => "stores#remove_stocker"
+      post "create_admin" => "stores#create_admin"
+      get "new_admin" => "stores#new_admin"
+      post "create_stocker" => "stores#create_stocker"
+      get "new_stocker" => "stores#new_stocker"
     end
   end
 end
