@@ -15,7 +15,7 @@
     <% @user.user_stores.each do |user_store| %>
     <tr>
       <td><%= user_store.name %></td>
-      <td><%= link_to_if (user_store.store.approved? || user_store.store.enabled?), user_store.slug, home_path(user_store.slug) %></td>
+      <td><%= link_to_if (user_store.store.approved? || user_store.store.enabled?), user_store.slug, admin_home_path(user_store.slug) %></td>
       <td><%= user_store.role.title %></td>
       <td><%= user_store.status %></td>
       <td><%= link_to "Manage", admin_home_path(user_store.store) %></td>
@@ -50,7 +50,7 @@
               </tr>
             <% order.line_items.each do |item| %>
               <tr>
-                <td><%= link_to item.product.name, product_path(store_id: item.product.store.to_param, id: item.product.id) %></td>
+                <td><%= link_to item.product.name, product_path(store_slug: item.product.store.slug, id: item.product.id) %></td>
                 <td><%= item.quantity %></td>
                 <td><%= amount_in_dollars(item.price) %></td>
                 <td><%= amount_in_dollars(item.historical_total) %></td>

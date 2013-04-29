@@ -12,7 +12,9 @@ class Admin::StoresController < ApplicationController
 
   def show
     @store = Store.find_by_slug(params[:store_slug])
-    @invoice = @store.invoices.last
+    if @store.invoices.count != nil
+      @invoice = @store.invoices.last
+    end
 
     if current_user && (@store.users.include?(current_user) || current_user.platform_administrator)
       render :show
