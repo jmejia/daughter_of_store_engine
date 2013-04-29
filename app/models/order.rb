@@ -10,6 +10,13 @@ class Order < ActiveRecord::Base
   has_one :visitor_order
   has_one :visitor, through: :visitor_order
 
+  def self.total_monthly_fees(start_date)
+    end_date = start_date.end_of_month
+    monthly_orders = Order.where(:created_at => start_date.beginning_of_day..start_date.end_of_month)
+    order_fee = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
+    (order_fee * 0.05).to_i
+  end
+
   def to_param
     confirmation
   end

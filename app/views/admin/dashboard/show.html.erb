@@ -2,6 +2,8 @@
   <h2>Dashboard</h2>
   <div class="btn-group">
     <%= link_to "Stores (#{Store.all.count})", admin_stores_path, :class => "btn btn-primary" %>
-    <%= link_to "Invoices", admin_invoices_path, :class => "btn btn-primary" %>
+    <%= link_to "Invoices", monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                                      month: Date.today.strftime("%m")),
+                                                      class: "btn btn-primary" %>
   </div>
 </div>

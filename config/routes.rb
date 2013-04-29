@@ -6,6 +6,8 @@ StoreEngine::Application.routes.draw do
 
   namespace :admin do
     resources :invoices do
+
+
       member do
         get :pay
         put :submit_payment
@@ -14,6 +16,9 @@ StoreEngine::Application.routes.draw do
       collection do
         post :generate_invoices, :as => :generate
         get  :store_invoices, :as => :store
+        get ':year/:month' => 'invoices#index',
+        :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
+        :as => 'monthly'
       end
     end
 

@@ -250,23 +250,33 @@ LineItem.create!(product_id: 23, cart_id: nil,
   order_id: 10, quantity: 6, price: 10)
 
 #ORDERS
-Order.create!(status: "pending", user_id: 1, total_cost: 3372, store_id: 1)
-Order.create!(status: "pending", user_id: 4, total_cost: 7375, store_id: 1)
-Order.create!(status: "cancelled", user_id: 1, total_cost: 4205, store_id: 1)
-Order.create!(status: "cancelled", user_id: 1, total_cost: 488, store_id: 1)
-Order.create!(status: "paid", user_id: 4, total_cost: 800, store_id: 2)
-Order.create!(status: "paid", user_id: 1, total_cost: 1138, store_id: 2)
-Order.create!(status: "shipped", user_id: 4, total_cost: 8, store_id: 2)
-Order.create!(status: "shipped", user_id: 4, total_cost: 16000, store_id: 2)
-Order.create!(status: "returned", user_id: 1, total_cost: 4844, store_id: 2)
-Order.create!(status: "returned", user_id: 4, total_cost: 460, store_id: 2)
+o1 = Order.create!(status: "pending", user_id: 1, total_cost: 3372, store_id: 1)
+o1.update_attribute(:created_at, "2013-03-01 00:00:00")
+o2 = Order.create!(status: "pending", user_id: 4, total_cost: 7375, store_id: 1)
+o2.update_attribute(:created_at, "2013-03-01 00:00:00")
+o3 = Order.create!(status: "cancelled", user_id: 1, total_cost: 4205, store_id: 1)
+o3.update_attribute(:created_at, "2013-03-01 00:00:00")
+o4 = Order.create!(status: "cancelled", user_id: 1, total_cost: 488, store_id: 1)
+o4.update_attribute(:created_at, "2013-03-01 00:00:00")
+o5 = Order.create!(status: "paid", user_id: 4, total_cost: 800, store_id: 2)
+o5.update_attribute(:created_at, "2013-03-01 00:00:00")
+o6 = Order.create!(status: "paid", user_id: 1, total_cost: 1138, store_id: 2)
+o6.update_attribute(:created_at, "2013-03-01 00:00:00")
+o7 = Order.create!(status: "shipped", user_id: 4, total_cost: 800, store_id: 2)
+o7.update_attribute(:created_at, "2013-03-01 00:00:00")
+o8 = Order.create!(status: "shipped", user_id: 4, total_cost: 16000, store_id: 2)
+o8.update_attribute(:created_at, "2013-03-01 00:00:00")
+o9 = Order.create!(status: "returned", user_id: 1, total_cost: 4844, store_id: 2)
+o9.update_attribute(:created_at, "2013-03-01 00:00:00")
+o10 = Order.create!(status: "returned", user_id: 4, total_cost: 460, store_id: 2)
+o10.update_attribute(:created_at, "2013-03-01 00:00:00")
 
 #ROLES
 Role.create!(title: "admin")
 Role.create!(title: "stocker")
 
 #INVOICES
-Invoice.create!(store_id: 1, start_date: Date.new(2010,10,01), end_date: Date.new(2010,10,20), total_revenue: 300, fee_amount: 15)
+#Invoice.create!(store_id: 1, start_date: Date.new(2010,10,01), end_date: Date.new(2010,10,20), total_revenue: 300, fee_amount: 15)
 
 #USER ROLES
 UserStore.create!(user_id: 1, store_id: 1, role_id: 1)
