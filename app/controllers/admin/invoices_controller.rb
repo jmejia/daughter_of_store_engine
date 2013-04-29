@@ -5,6 +5,7 @@ class Admin::InvoicesController < ApplicationController
     @url_date = Date.new(params[:year].to_i, params[:month].to_i)
     @previous_month_start_date = @url_date - 1.month
     @total_fees = Order.total_monthly_fees(@previous_month_start_date)
+    @outstanding_balance = Invoice.outstanding_balance(@url_date)
     @stores = Store.all
   end
 
