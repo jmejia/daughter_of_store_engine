@@ -14,7 +14,6 @@ class Store < ActiveRecord::Base
 
   def monthly_invoice(start_date)
     end_date = start_date.end_of_month
-   # self.invoices.where("start_date between ? and ?", start_date, end_date).first
     invoices.where(:start_date => start_date.beginning_of_day..end_date).first
   end
 

@@ -15,8 +15,8 @@
     </tr>
     <% @stores.sort.each do |store| %>
     <tr class="invoice">
-      <% if store.invoices.count >= 1 %>
-        <td><%= link_to store.name, admin_invoice_path(store.invoices.last) %></td>
+      <% if store.monthly_invoice(@previous_month_start_date) %>
+        <td><%= link_to store.name, admin_invoice_path(store.monthly_invoice(@previous_month_start_date)) %></td>
       <% else %>
         <td><%= store.name %></td>
       <% end %>
