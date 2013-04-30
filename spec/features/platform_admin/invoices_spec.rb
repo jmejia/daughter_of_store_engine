@@ -15,6 +15,12 @@ describe "Platform Admin has Invoices Dashboard" do
                                store_id: store.id,
                                total_cost: 1000)}
 
+  let!(:invoice) { Invoice.create!(store_id: store.id,
+                                   total_revenue: 1000,
+                                   fee_amount: 50,
+                                   start_date: Date.today.ago(1.month).beginning_of_month,
+                                   end_date: Date.today.ago(1.month).end_of_month)}
+
   before do
     order.created_at = Date.today.ago(1.month)
     order.save
@@ -26,30 +32,15 @@ describe "Platform Admin has Invoices Dashboard" do
                                         month: Date.today.strftime("%m"))
       expect(page).to have_content("Sorry")
     end
-  end
 
-  context "as an invalid user" do
     it "throws an error" do
       visit monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
                                         month: Date.today.strftime("%m"))
       expect(page).to have_content("Sorry")
     end
-  end
-
-  context "as an invalid user" do
-
-    before do
-      visit login_path
-      fill_in("Email", with: platform_admin.email)
-      fill_in("password", with: "password")
-      click_button("Log in")
-      click_link("Current")
-      click_button("Generate Invoices")
-      click_link("Log out")
-    end
 
     it "throws an error" do
-      visit admin_invoice_path(1)
+      visit admin_invoice_path(invoice.id)
       expect(page).to have_content("Sorry")
     end
   end
