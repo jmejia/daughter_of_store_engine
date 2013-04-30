@@ -27,12 +27,24 @@ class Admin::InvoicesController < ApplicationController
     end
   end
 
+  #def update
+  #  invoice = Invoice.find(params[:id])
+  #  @url_date = Date.new(params[:year].to_i, params[:month].to_i)
+  #  @outstanding_balance = Invoice.outstanding_balance(@url_date - 1.month)
+
+  #  if invoice.update_attributes(params[:invoice])
+  #    flash.now[:alert] = "Successfully changed status of invoice."
+  #  else
+  #    flash.now[:error] = "Unable to mark invoice as paid"
+  #  end
+  #end
+
   def update
     invoice = Invoice.find(params[:id])
-
     if invoice.update_attributes(params[:invoice])
-      #  render :json => {:status => "success", :notice => "Successfully changed status of invoice."}
       flash.now[:alert] = "Successfully changed status of invoice."
+      @url_date = Date.new(params[:year].to_i, params[:month].to_i)
+      @outstanding_balance = Invoice.outstanding_balance(@url_date)
     else
       flash.now[:error] = "Unable to mark invoice as paid"
     end
