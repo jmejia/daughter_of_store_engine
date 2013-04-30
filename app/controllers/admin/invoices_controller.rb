@@ -59,22 +59,32 @@ class Admin::InvoicesController < ApplicationController
   end
 
   def generate_invoices
-    @stores = Store.all
+    date = Date.new(params[:year].to_i, params[:month].to_i)
+    start_date = date - 1.month
+    end_date = start_date.end_of_month
 
-    @stores.each do |store|
-      date = Date.new(params[:year].to_i, params[:month].to_i)
-      start_date = date - 1.month
-      end_date = start_date.end_of_month
+    if Invoice.monthly_invoices?(start_date)
+      invoices = Invoice.find_unpaid_for(start_date)
+      #fail invoices
+      # check if paid
+        # if not paid email the invoice
+      redirect_to :back, :notice => "Emails have been sent to unpaid invoice store admins."
+    else
+      @stores = Store.all
+
+      @stores.each do |store|
       orders = store.orders.where(:created_at => start_date.beginning_of_day..end_date)
-      unless orders.empty?
-        InvoiceService.create(orders, start_date, end_date)
-        store.admins.each do |admin|
-          UserMailer.delay.monthly_invoice(admin)
-        end
-      end
-    end
 
-    redirect_to :back, :notice => "Your invoices have been created."
+        unless orders.empty?
+          InvoiceService.create(orders, start_date, end_date)
+          store.admins.each do |admin|
+            UserMailer.delay.monthly_invoice(admin)
+          end
+        end
+
+      end
+      redirect_to :back, :notice => "Your invoices have been created."
+    end
   end
 
   private

@@ -8,6 +8,11 @@ class Invoice < ActiveRecord::Base
   belongs_to :store
   has_many :orders
 
+  def self.find_unpaid_for(start_date)
+    end_date = start_date.end_of_month
+    Invoice.where(:start_date => start_date..end_date, :status => false)
+  end
+
   def self.monthly_invoices?(start_date)
     end_date = start_date.end_of_month
     invoice = Invoice.where(:start_date => start_date..end_date).first
@@ -17,7 +22,8 @@ class Invoice < ActiveRecord::Base
   end
 
   def self.outstanding_balance(start_date)
-    monthly_invoices = Invoice.where(created_at: start_date.beginning_of_day..start_date.end_of_month)
+    monthly_invoices = Invoice.where(created_at: start_date.beginning_of_day..start_date.end_of_month.end_of_day)
+
     if monthly_invoices.empty?
       Order.total_monthly_fees(start_date - 1.month)
     else
