@@ -14,7 +14,9 @@ StoreEngine::Application.routes.draw do
       end
 
       collection do
-        post :generate_invoices, :as => :generate
+        post ':year/:month' => 'invoices#generate_invoices',
+        :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
+        :as => 'generate'
         get  :store_invoices, :as => :store
         get ':year/:month' => 'invoices#index',
           :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
