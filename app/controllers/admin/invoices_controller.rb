@@ -9,6 +9,7 @@ class Admin::InvoicesController < ApplicationController
     @outstanding_balance = Invoice.outstanding_balance(@url_date)
     @monthly_invoices = Invoice.monthly_invoices?(@previous_month_start_date)
     @stores = Store.all
+    @existing_invoices = Invoice.monthly_invoices?(@previous_month_start_date)
   end
 
   def store_invoices
@@ -58,38 +59,43 @@ class Admin::InvoicesController < ApplicationController
     end
   end
 
-  def generate_invoices
-    date = Date.new(params[:year].to_i, params[:month].to_i)
-    start_date = date - 1.month
-    end_date = start_date.end_of_month
+  def reminder_invoices
+    invoice_dates(params)
 
-    if Invoice.monthly_invoices?(start_date)
-      invoices = Invoice.find_unpaid_for(start_date)
+      invoices = Invoice.find_unpaid_for(@start_date)
       invoices.each do |invoice|
         invoice.store.admins.each do |admin|
-          UserMailer.delay.monthly_invoice_reminder(invoice.store, admin, start_date)
+          UserMailer.delay.monthly_invoice_reminder(invoice.store, admin, @start_date)
         end
       end
-      redirect_to :back, :notice => "Emails have been sent to unpaid invoice store admins."
-    else
-      @stores = Store.all
+    redirect_to :back, :notice => "Emails have been sent to unpaid invoice store admins."
+  end
 
-      @stores.each do |store|
-      orders = store.orders.where(:created_at => start_date.beginning_of_day..end_date)
+  def generate_invoices
+    invoice_dates(params)
 
-        unless orders.empty?
-          InvoiceService.create(orders, start_date, end_date)
-          store.admins.each do |admin|
-            UserMailer.delay.monthly_invoice(store, admin, start_date)
-          end
+    @stores = Store.all
+
+    @stores.each do |store|
+    orders = store.orders.where(:created_at => @start_date.beginning_of_day..@end_date)
+
+      unless orders.empty?
+        InvoiceService.create(orders, @start_date, @end_date)
+        store.admins.each do |admin|
+          UserMailer.delay.monthly_invoice(store, admin, @start_date)
         end
-
       end
-      redirect_to :back, :notice => "Your invoices have been created."
     end
+    redirect_to :back, :notice => "Your invoices have been created."
   end
 
   private
+
+  def invoice_dates(params)
+    @date = Date.new(params[:year].to_i, params[:month].to_i)
+    @start_date = @date - 1.month
+    @end_date = @start_date.end_of_month
+  end
 
   def require_admin
     unless current_user && current_user.platform_administrator

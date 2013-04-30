@@ -17,6 +17,9 @@ StoreEngine::Application.routes.draw do
         post ':year/:month' => 'invoices#generate_invoices',
         :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
         :as => 'generate'
+        post 'reminder/:year/:month' => 'invoices#reminder_invoices',
+        :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
+        :as => 'reminder'
         get  :store_invoices, :as => :store
         get ':year/:month' => 'invoices#index',
           :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
