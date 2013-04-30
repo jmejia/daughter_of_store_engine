@@ -11,32 +11,43 @@ describe "Platform Admin has Invoices Dashboard" do
                                 slug: "warm-runnings",
                                 status: "approved") }
 
+  let!(:order) { Order.create!(user_id: platform_admin.id,
+                               store_id: store.id,
+                               total_cost: 1000)}
+
   before do
-    order1 = Order.new(total_cost: 80, store_id: store.id)
-    order1.created_at = Date.new(2010,10,10)
-    order1.save
-    order2 = Order.new(total_cost: 120, store_id: store.id)
-    order2.created_at = Date.new(2010,10,11)
-    order2.save
-    orders = store.orders
-    InvoiceService.create(orders)
+    order.created_at = Date.today.ago(1.month)
+    order.save
   end
 
   context "as an invalid user" do
     it "throws an error" do
-      visit admin_invoices_path
+      visit monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                        month: Date.today.strftime("%m"))
       expect(page).to have_content("Sorry")
     end
   end
 
   context "as an invalid user" do
     it "throws an error" do
-      visit admin_dashboard_path
+      visit monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                        month: Date.today.strftime("%m"))
       expect(page).to have_content("Sorry")
     end
   end
 
   context "as an invalid user" do
+
+    before do
+      visit login_path
+      fill_in("Email", with: platform_admin.email)
+      fill_in("password", with: "password")
+      click_button("Log in")
+      click_link("Current")
+      click_button("Generate Invoices")
+      click_link("Log out")
+    end
+
     it "throws an error" do
       visit admin_invoice_path(1)
       expect(page).to have_content("Sorry")
@@ -44,12 +55,12 @@ describe "Platform Admin has Invoices Dashboard" do
   end
 
   context "as a valid user" do
-
     before do
       visit login_path
       fill_in("Email", with: platform_admin.email)
       fill_in("password", with: "password")
       click_button("Log in")
+      click_link("Current")
     end
 
     it "redirects to Admin Dashboard" do

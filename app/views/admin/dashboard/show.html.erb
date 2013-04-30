@@ -4,8 +4,8 @@
   <h3>Invoices</h3>
   <div class="btn-group">
     <%= link_to "Current", monthly_admin_invoices_path(year: @current_date.strftime("%Y"),
-                                                                 month: @current_date.strftime("%m")),
-                                                                 class: "btn btn-primary" %>
+                                                       month: @current_date.strftime("%m")),
+                                                       class: "btn btn-primary" %>
     <% 6.times do %>
       <% @current_date -= 1.month %>
       <%= link_to "#{@current_date.strftime("%B")} #{@current_date.strftime("%Y")}", monthly_admin_invoices_path(year: @current_date.strftime("%Y"),
