@@ -7,6 +7,7 @@ class Admin::InvoicesController < ApplicationController
     @previous_month_start_date = @url_date - 1.month
     @total_fees = Order.total_monthly_fees(@previous_month_start_date)
     @outstanding_balance = Invoice.outstanding_balance(@url_date)
+    @monthly_invoices = Invoice.monthly_invoices?(@previous_month_start_date)
     @stores = Store.all
   end
 
@@ -28,18 +29,6 @@ class Admin::InvoicesController < ApplicationController
       redirect_to root_url
     end
   end
-
-  #def update
-  #  invoice = Invoice.find(params[:id])
-  #  @url_date = Date.new(params[:year].to_i, params[:month].to_i)
-  #  @outstanding_balance = Invoice.outstanding_balance(@url_date - 1.month)
-
-  #  if invoice.update_attributes(params[:invoice])
-  #    flash.now[:alert] = "Successfully changed status of invoice."
-  #  else
-  #    flash.now[:error] = "Unable to mark invoice as paid"
-  #  end
-  #end
 
   def update
     invoice = Invoice.find(params[:id])
@@ -70,23 +59,34 @@ class Admin::InvoicesController < ApplicationController
   end
 
   def generate_invoices
-    @stores = Store.all
+    date = Date.new(params[:year].to_i, params[:month].to_i)
+    start_date = date - 1.month
+    end_date = start_date.end_of_month
 
-    @stores.each do |store|
-      start_date = Time.new(params[:year], params[:month], 15).ago(1.month).beginning_of_month
-      end_date = start_date.end_of_month
-      orders = store.orders.select do |order|
-        order.created_at.to_i >= start_date.to_i && order.created_at.to_i <= end_date.to_i
-      end
-      unless orders.empty?
-        InvoiceService.create(orders, start_date, end_date)
-        store.admins.each do |admin|
-          UserMailer.delay.monthly_invoice(admin)
+    if Invoice.monthly_invoices?(start_date)
+      invoices = Invoice.find_unpaid_for(start_date)
+      invoices.each do |invoice|
+        invoice.store.admins.each do |admin|
+          UserMailer.delay.monthly_invoice_reminder(invoice.store, admin, start_date)
         end
       end
-    end
+      redirect_to :back, :notice => "Emails have been sent to unpaid invoice store admins."
+    else
+      @stores = Store.all
 
-    redirect_to :back, :notice => "Your invoices have been created."
+      @stores.each do |store|
+      orders = store.orders.where(:created_at => start_date.beginning_of_day..end_date)
+
+        unless orders.empty?
+          InvoiceService.create(orders, start_date, end_date)
+          store.admins.each do |admin|
+            UserMailer.delay.monthly_invoice(store, admin, start_date)
+          end
+        end
+
+      end
+      redirect_to :back, :notice => "Your invoices have been created."
+    end
   end
 
   private

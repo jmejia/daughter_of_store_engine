@@ -1,6 +1,8 @@
-<p>Hello <%= @admin.full_name %>!</p>
+<p>Hello <%= @admin.full_name %>,</p>
 
-<p>Your invoice for <%= @store.name %> is ready. Here is the summary:</p>
+<b>Your store is at risk of being disabled!</b>
+
+<p>Your invoice for <%= @store.name %> has still not been paid. Here is the summary:</p>
 
 <table class="table">
   <tr>
@@ -20,7 +22,7 @@
   </tr>
 </table>
 
-<p>You can also review the full invoice and order details by visiting http://dose-gates.herokuapp.com/admin/invoices/<%= @invoice.id %>. Remember, payments are due by the 15th!</p>
+<p>You can also review the full invoice and order details by visiting http://dose-gates.herokuapp.com/admin/invoices/<%= @invoice.id %>.</p>
 
 <p>Thanks!</p>
 <p>Epic Sale</p>
