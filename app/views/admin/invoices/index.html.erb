@@ -5,7 +5,15 @@
     <hr>
     <h3><%= @url_date.strftime("%B") %></h3>
     <h4 class="pull-left">Showing data for previous month.</h4>
-    <%= button_to "Generate Invoices", generate_admin_invoices_path, class: "btn btn-primary pull-right" %>
+    <% date = Time.new(params[:year], params[:month], 15).ago(1.month).strftime("%m") %>
+    <%# fail %>
+    <% if @invoices.collect(&:start_date).collect{|date| date.strftime("%m")}.include?(date) %>
+    <p class="pull-right"><strong>Invoices for last month have already been generated.</strong></p>
+    <% else %>
+      <%= button_to "Generate Invoices", generate_admin_invoices_path(year: params[:year],
+                                                                      month: params[:month]),
+                                                                      class: "btn btn-primary pull-right" %>
+    <% end %>
   </thead>
   <tr>
     <th>Store</th>

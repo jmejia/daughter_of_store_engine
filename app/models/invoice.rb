@@ -18,5 +18,4 @@ class Invoice < ActiveRecord::Base
       order_fee
     end
   end
-
 end
