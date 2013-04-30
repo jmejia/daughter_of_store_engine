@@ -18,7 +18,6 @@ class OrdersController < ApplicationController
     end
 
     render :show
-
   end
 
   def change_status
@@ -100,7 +99,5 @@ class OrdersController < ApplicationController
                                  params[:order][:visitor][:email],
                                  params["stripe_card_token"])
     end
-
   end
-
 end

@@ -7,7 +7,6 @@ StoreEngine::Application.routes.draw do
   namespace :admin do
     resources :invoices do
 
-
       member do
         get :pay
         put :submit_payment
@@ -15,7 +14,8 @@ StoreEngine::Application.routes.draw do
 
       collection do
         post :generate_invoices, :as => :generate
-        get  :store_invoices, :as => :store
+        get  :store_invoices,    :as => :store
+
         get ':year/:month' => 'invoices#index',
         :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
         :as => 'monthly'
@@ -65,7 +65,7 @@ StoreEngine::Application.routes.draw do
   scope "/:store_slug" do
 
     resources :categories
-    get "/" => "products#index", as: "home"
+    get "/" => "products#index", :as => "home"
     resources :products, :only => :show
 
     namespace :admin do
@@ -73,7 +73,7 @@ StoreEngine::Application.routes.draw do
 
       scope "/:users" do
         delete "remove_stocker" => "stores#remove_stocker"
-        delete "remove_admin" => "stores#remove_admin"
+        delete "remove_admin"   => "stores#remove_admin"
       end
 
       resources :products do
@@ -83,11 +83,20 @@ StoreEngine::Application.routes.draw do
         end
       end
 
-      resources :orders
-      post "create_admin" => "stores#create_admin"
-      get "new_admin" => "stores#new_admin"
+      resources :orders do
+        member do
+          post :process_refund
+        end
+
+        collection do
+          get :new_refund
+        end
+      end
+
+      post "create_admin"   => "stores#create_admin"
+      get "new_admin"       => "stores#new_admin"
       post "create_stocker" => "stores#create_stocker"
-      get "new_stocker" => "stores#new_stocker"
+      get "new_stocker"     => "stores#new_stocker"
     end
   end
 end

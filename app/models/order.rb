@@ -1,19 +1,25 @@
 class Order < ActiveRecord::Base
-  attr_accessible :status, :user_id, :total_cost, :confirmation, :visitor,
-                  :stripe_card_token, :store_id
+  attr_accessible :status,
+                  :user_id,
+                  :total_cost,
+                  :confirmation,
+                  :visitor,
+                  :stripe_card_token,
+                  :store_id
+
   attr_accessor :stripe_card_token
 
-  has_many :line_items
+  has_many   :line_items
   belongs_to :user
   belongs_to :store
   belongs_to :invoice
-  has_one :visitor_order
-  has_one :visitor, through: :visitor_order
+  has_one    :visitor_order
+  has_one    :visitor, through: :visitor_order
 
   def self.total_monthly_fees(start_date)
-    end_date = start_date.end_of_month
+    end_date       = start_date.end_of_month
     monthly_orders = Order.where(:created_at => start_date.beginning_of_day..start_date.end_of_month)
-    order_fee = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
+    order_fee      = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
     (order_fee * 0.05).to_i
   end
 
@@ -29,17 +35,17 @@ class Order < ActiveRecord::Base
 
   def generate_confirmation_code
     if user
-    self.confirmation ||= Digest::SHA1.hexdigest("#{user.email}#{DateTime.now}")[0..15]
+      self.confirmation ||= Digest::SHA1.hexdigest("#{user.email}#{DateTime.now}")[0..15]
     elsif visitor
-    self.confirmation ||= Digest::SHA1.hexdigest("#{visitor.email}#{DateTime.now}")[0..15]
+      self.confirmation ||= Digest::SHA1.hexdigest("#{visitor.email}#{DateTime.now}")[0..15]
     end
   end
 
   def self.create_from_cart_for_user(cart, user, card)
 
     order = Order.new.tap do |order|
-      order.status  = "pending",
-      order.user_id = user.id,
+      order.status     = "pending",
+      order.user_id    = user.id,
       order.total_cost = cart.calculate_total_cost
       order.add_line_items(cart)
       order.save_with_payment(card)
@@ -51,7 +57,7 @@ class Order < ActiveRecord::Base
   def self.create_visitor_order cart, email, card
     Order.new.tap do |order|
       order.total_cost = cart.calculate_total_cost
-      order.visitor = Visitor.find_or_create_by_email(email)
+      order.visitor    = Visitor.find_or_create_by_email(email)
       order.add_line_items(cart)
       order.save_with_payment(card)
       order.generate_confirmation_code
@@ -61,9 +67,10 @@ class Order < ActiveRecord::Base
 
   def save_with_payment(card_token)
     if valid?
-      Stripe::Charge.create(amount: total_cost, card: card_token,
+      Stripe::Charge.create(amount:   total_cost,
+                            card:     card_token,
                             currency: "usd")
-      self.status = "paid"
+      self.status       = "paid"
       self.confirmation = generate_confirmation_code; save!; self
     end
   rescue Stripe::InvalidRequestError => e
@@ -75,6 +82,4 @@ class Order < ActiveRecord::Base
   def owner
     user || visitor
   end
-
-
 end
