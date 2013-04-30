@@ -60,7 +60,6 @@ describe "Platform Admin has Invoices Dashboard" do
       fill_in("Email", with: platform_admin.email)
       fill_in("password", with: "password")
       click_button("Log in")
-      click_link("Current")
     end
 
     it "redirects to Admin Dashboard" do
@@ -68,12 +67,14 @@ describe "Platform Admin has Invoices Dashboard" do
     end
 
     it "shows a link to view the Invoices" do
-      expect(page).to have_link("Invoices", href: admin_invoices_path)
+      expect(page).to have_link("Current", href: monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                                                            month: Date.today.strftime("%m")))
     end
 
     it "displays the Invoices" do
-      click_link("Invoices")
-      expect(current_path).to eq admin_invoices_path
+      click_link("Current")
+      expect(current_path).to eq monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                                             month: Date.today.strftime("%m"))
     end
 
     # it "updates an invoice to paid" do
