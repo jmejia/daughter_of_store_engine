@@ -1,7 +1,7 @@
 class InvoiceService
-  def self.create(orders)
-    start_date = DateTime.now.ago(1.month).beginning_of_month
-    end_date = DateTime.now.ago(1.month).end_of_month
+  def self.create(orders, start_date, end_date)
+    # start_date = DateTime.now.ago(1.month).beginning_of_month
+    # end_date = DateTime.now.ago(1.month).end_of_month
 
     # orders.collect do |order|
     #     if order.created_at.to_i >= start_date.to_i && order.created_at.to_i <= end_date.to_i

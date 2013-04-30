@@ -62,13 +62,12 @@ class Admin::InvoicesController < ApplicationController
 
     @stores.each do |store|
       start_date = Time.new(params[:year], params[:month], 15).ago(1.month).beginning_of_month
-      # start_date = Date.today.ago(1.month).beginning_of_month
       end_date = start_date.end_of_month
       orders = store.orders.select do |order|
         order.created_at.to_i >= start_date.to_i && order.created_at.to_i <= end_date.to_i
       end
       unless orders.empty?
-        InvoiceService.create(orders)
+        InvoiceService.create(orders, start_date, end_date)
         store.admins.each do |admin|
           UserMailer.delay.monthly_invoice(admin)
         end
