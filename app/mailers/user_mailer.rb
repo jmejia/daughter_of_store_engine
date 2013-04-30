@@ -56,10 +56,19 @@ class UserMailer < ActionMailer::Base
     mail to: admin.email
   end
 
-  def monthly_invoice(store, admin)
+  def monthly_invoice(store, admin, start_date)
     @store = store
     @admin = admin
-    @invoice = store.invoices.last
+    @invoice = store.monthly_invoice(start_date)
+    @start_date = start_date
+    mail to: admin.email
+  end
+
+  def monthly_invoice_reminder(store, admin, start_date)
+    @store = store
+    @admin = admin
+    @invoice = store.monthly_invoice(start_date)
+    @start_date = start_date
     mail to: admin.email
   end
 end

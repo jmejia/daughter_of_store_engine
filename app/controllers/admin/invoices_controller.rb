@@ -65,9 +65,11 @@ class Admin::InvoicesController < ApplicationController
 
     if Invoice.monthly_invoices?(start_date)
       invoices = Invoice.find_unpaid_for(start_date)
-      #fail invoices
-      # check if paid
-        # if not paid email the invoice
+      invoices.each do |invoice|
+        invoice.store.admins.each do |admin|
+          UserMailer.delay.monthly_invoice_reminder(invoice.store, admin, start_date)
+        end
+      end
       redirect_to :back, :notice => "Emails have been sent to unpaid invoice store admins."
     else
       @stores = Store.all
@@ -78,7 +80,7 @@ class Admin::InvoicesController < ApplicationController
         unless orders.empty?
           InvoiceService.create(orders, start_date, end_date)
           store.admins.each do |admin|
-            UserMailer.delay.monthly_invoice(admin)
+            UserMailer.delay.monthly_invoice(store, admin, start_date)
           end
         end
 
