@@ -12,10 +12,9 @@ class Store < ActiveRecord::Base
   validates_uniqueness_of :name, :slug
   validates_presence_of :name, :slug
 
-  def monthly_invoice(start_date=nil, end_date=nil)
-    start_date ||= 1.month.ago.beginning_of_month
-    end_date ||= start_date.end_of_month
-    self.invoices.where("start_date between ? and ?", start_date, end_date).first
+  def monthly_invoice(start_date)
+    end_date = start_date.end_of_month
+    invoices.where(:start_date => start_date.beginning_of_day..end_date).first
   end
 
   def monthly_fee(start_date)

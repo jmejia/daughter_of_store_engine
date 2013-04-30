@@ -8,10 +8,17 @@ window.Invoices =
       @checkbox_status = e.target.checked
       @post()
 
+  year: $('.outstanding-balance').data('year')
+  month: $('.outstanding-balance').data('month')
+
   post: ()->
     self = @
     $.ajax
       type: "PUT"
       url: "/admin/invoices/#{@id}"
-      data: {invoice: {status: self.checkbox_status}}
+      data:
+        invoice:
+          status: @checkbox_status
+        year: @year
+        month: @month
       dataType: 'script'

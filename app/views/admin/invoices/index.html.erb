@@ -1,59 +1,62 @@
 <div class="well well-large">
-<table class="table table-striped">
-  <thead>
-    <h1>Invoices</h1>
-    <hr>
-    <h3><%= @url_date.strftime("%B") %></h3>
-    <h4 class="pull-left">Showing data for previous month.</h4>
-    <%= button_to "Generate Invoices", generate_admin_invoices_path, class: "btn btn-primary pull-right" %>
-  </thead>
-  <tr>
-    <th>Store</th>
-    <th>Fee</th>
-    <th>Paid</th>
-    <th>Actions</th>
-  </tr>
-  <% @stores.sort.each do |store| %>
-  <tr class="invoice">
-    <% if store.invoices.count >= 1 %>
-      <td><%= link_to store.name, admin_invoice_path(store.invoices.last) %></td>
-    <% else %>
-      <td><%= store.name %></td>
-    <% end %>
-    <td><%= amount_in_dollars(store.monthly_fee(@previous_month_start_date)) %></td>
+  <table class="table table-striped">
+    <thead>
+      <h1>Invoices</h1>
+      <hr>
+      <h3><%= @url_date.strftime("%B") %></h3>
+      <h4 class="pull-left">Showing data for previous month.</h4>
+      <%= button_to "Generate Invoices", generate_admin_invoices_path, class: "btn btn-primary pull-right" %>
+    </thead>
+    <tr>
+      <th>Store</th>
+      <th>Fee</th>
+      <th>Paid</th>
+      <th>Actions</th>
+    </tr>
+    <% @stores.sort.each do |store| %>
+    <tr class="invoice">
+      <% if store.monthly_invoice(@previous_month_start_date) %>
+        <td><%= link_to store.name, admin_invoice_path(store.monthly_invoice(@previous_month_start_date)) %></td>
+      <% else %>
+        <td><%= store.name %></td>
+      <% end %>
+      <td><%= amount_in_dollars(store.monthly_fee(@previous_month_start_date)) %></td>
+        <td>
+          <% if store.monthly_invoice(@previous_month_start_date) %>
+            <%= check_box_tag(:status, "paid", store.monthly_invoice(@previous_month_start_date).status, :class => "status", :id => "status", 'data-id' => store.monthly_invoice(@previous_month_start_date).id)%>
+          <% end %>
+        </td>
       <td>
-        <% if store.monthly_invoice %>
-          <%= check_box_tag(:status, "paid", store.monthly_invoice.status, :class => "status", :id => "status", 'data-id' => store.monthly_invoice.id)%>
-        <% end %>
+        <div class="btn-group">
+          <% if store.status != "disabled" %>
+            <%= link_to "Disable",
+                        admin_store_disable_path(store),
+                        :method => :put,
+                        :class => "btn btn-danger",
+                        :confirm => "Are you sure you want to disable #{store.name}?"%>
+          <% else %>
+            <%= link_to "Enable",
+                        admin_store_enable_path(store),
+                        :method => :put,
+                        :class => "btn btn-success",
+                        :confirm => "Are you sure you want to enable #{store.name}?"%>
+          <% end %>
+        </div>
       </td>
-    <td>
-      <div class="btn-group">
-        <% if store.status != "disabled" %>
-          <%= link_to "Disable",
-                      admin_store_disable_path(store),
-                      :method => :put,
-                      :class => "btn btn-danger",
-                      :confirm => "Are you sure you want to disable #{store.name}?"%>
-        <% else %>
-          <%= link_to "Enable",
-                      admin_store_enable_path(store),
-                      :method => :put,
-                      :class => "btn btn-success",
-                      :confirm => "Are you sure you want to enable #{store.name}?"%>
-        <% end %>
-      </div>
-    </td>
-  </tr>
-  <% end %>
-  <tr class="total owed">
-    <td><h3>Total Fees Owed</h3></td>
-    <td><h3><%= amount_in_dollars(@total_fees) %></h3></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr class="total outstanding">
-    <td><h3><font color = "red">Total Outstanding</h3></td>
-      <td><h3><font color = "red"><%= amount_in_dollars(@outstanding_balance) %></h3></td>
-  </tr>
-</table>
+    </tr>
+    <% end %>
+    <tr class="total owed">
+      <td><h3>Total Fees Owed</h3></td>
+      <td>
+        <h3>
+          <%= amount_in_dollars(@total_fees) %> 
+          (<span class="outstanding-balance" data-year="<%= params[:year] %>" data-month="<%= params[:month] %>">
+            <%= amount_in_dollars(@outstanding_balance) %>
+          </span>)
+        </h3>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
 </div>
