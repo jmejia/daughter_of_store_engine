@@ -15,6 +15,7 @@ class Order < ActiveRecord::Base
   belongs_to :invoice
   has_one    :visitor_order
   has_one    :visitor, through: :visitor_order
+  has_many   :refunds
 
   def self.total_monthly_fees(start_date)
     end_date       = start_date.end_of_month

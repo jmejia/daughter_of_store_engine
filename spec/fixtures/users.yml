@@ -1,0 +1,6 @@
+test:
+  email: test@test.stripe_customer_token
+  role: user
+  full_name: Tester
+  display_name: tester
+  platform_administrator: yes

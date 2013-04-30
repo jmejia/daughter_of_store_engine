@@ -1,6 +1,12 @@
 class Store < ActiveRecord::Base
   attr_accessible :description, :name, :slug, :status
 
+  scope :payments, (lambda do |date_range|
+    order_payments  = orders.where(:created_at => date_range).map(&:to_payment)
+    refund_payments = refunds.where(:created_at => date_range).map(&:to_payment)
+    order_payments + refund_payments
+  end)
+
   has_many :user_stores, dependent: :destroy
   has_many :users, through: :user_stores
   has_many :products, dependent: :destroy
@@ -8,14 +14,14 @@ class Store < ActiveRecord::Base
   has_many :carts, dependent: :destroy
   has_many :invoices
   has_many :orders
+  has_many :refunds, through: :orders
 
   validates_uniqueness_of :name, :slug
   validates_presence_of :name, :slug
 
-  def monthly_invoice(start_date=nil, end_date=nil)
-    start_date ||= 1.month.ago.beginning_of_month
-    end_date ||= start_date.end_of_month
-    self.invoices.where("start_date between ? and ?", start_date, end_date).first
+  def monthly_invoice(start_date)
+    end_date = start_date.end_of_month
+    invoices.where(:start_date => start_date.beginning_of_day..end_date).first
   end
 
   def monthly_fee(start_date)
