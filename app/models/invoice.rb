@@ -8,6 +8,14 @@ class Invoice < ActiveRecord::Base
   belongs_to :store
   has_many :orders
 
+  def self.monthly_invoices?(start_date)
+    end_date = start_date.end_of_month
+    invoice = Invoice.where(:start_date => start_date..end_date).first
+    if invoice
+      true
+    end
+  end
+
   def self.outstanding_balance(start_date)
     monthly_invoices = Invoice.where(created_at: start_date.beginning_of_day..start_date.end_of_month)
     if monthly_invoices.empty?
