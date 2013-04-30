@@ -12,11 +12,6 @@
   <% end %>
 
   <div class="field">
-    <%= label_tag :store_id, "Store" %>
-    <%= text_field_tag :store_id  %>
-  </div>
-
-  <div class="field">
     <%= label_tag :total_cost, "Amount" %>
     <%= text_field_tag :total_cost %>
   </div>
@@ -31,7 +26,7 @@
   </div>
 
   <div class="actions">
-    <%= link_to "Submit Order", process_refund_admin_order_path(:store_slug => "1" , :id => @order.id), :class => "btn btn-primary" %>
+    <%= link_to "Submit Order", admin_refunds_path(@store_slug), :class => "btn btn-primary" %>
   </div>
 
 <% end %>

@@ -83,15 +83,9 @@ StoreEngine::Application.routes.draw do
         end
       end
 
-      resources :orders do
-        member do
-          post :process_refund
-        end
+      resources :refunds
 
-        collection do
-          get :new_refund
-        end
-      end
+      resources :orders
 
       post "create_admin"   => "stores#create_admin"
       get "new_admin"       => "stores#new_admin"

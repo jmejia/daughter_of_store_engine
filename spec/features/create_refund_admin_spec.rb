@@ -25,12 +25,14 @@ describe "when I am a store admin and I am viewing my store dashboard" do
     click_button("Log in")
     visit profile_path
     click_link("Manage")
+    click_link("Orders")
+    click_link("Process Refund")
   end
 
-  it "shows a 'Refund' button" do
-    expect(page).to have_content("Refund")
+  it "displays refund form for a selected order" do
+    #confirm "Process Refund" button appears beside each order
+    #confirm form rendered/redirect
   end
 
-  it "creates a refund order" do
-  end
+  it #will redirect back to orders index
 end
