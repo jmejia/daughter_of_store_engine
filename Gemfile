@@ -18,6 +18,7 @@ gem 'newrelic_rpm'
 gem 'coffee-rails', '~> 3.2.1'
 gem 'uglifier', '>= 1.0.3'
 gem "bullet", :group => "development"
+gem 'binding_of_caller', :group => 'development'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -43,5 +44,5 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'pry'
   gem 'rack_session_access'
-#  gem 'better_errors'
+  gem 'better_errors'
 end

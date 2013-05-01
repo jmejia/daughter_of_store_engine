@@ -77,10 +77,9 @@ class Admin::InvoicesController < ApplicationController
     @stores = Store.all
 
     @stores.each do |store|
-      payments = store.payments(@start_date.beginning_of_day..@end_date)
-
+      payments = store.payments(@start_date..@end_date)
       unless payments.empty?
-        InvoiceService.create(payments, @start_date, @end_date)
+        InvoiceService.create(payments)
 
         store.admins.each do |admin|
           UserMailer.delay.monthly_invoice(store, admin, @start_date)
