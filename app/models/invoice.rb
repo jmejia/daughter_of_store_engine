@@ -31,14 +31,6 @@ class Invoice < ActiveRecord::Base
 
     if monthly_invoices.empty?
        Order.total_monthly_fees(start_date)
-      # @stores = Store.all
-      # end_date = start_date.end_of_month
-      # global_fee = GlobalFee.first
-      # payments = @stores.map do |store|
-      #   store.payments(start_date..end_date)
-      # end
-      # payment_fee = payments.inject(0){ |sum, payment| sum + (payment.total_cost || 0) }
-      # fee_amount  = payment_fee * global_fee.percentage
     else
       monthly_invoices = monthly_invoices.where(status: false)
       order_fee = monthly_invoices.inject(0){ |sum, invoice| sum + invoice.fee_amount }
