@@ -26,15 +26,13 @@
       <tr class="invoice">
         <% if store.monthly_invoice(@previous_month_start_date) %>
           <td><%= link_to store.name, admin_invoice_path(store.monthly_invoice(@previous_month_start_date)) %></td>
+          <td><%= amount_in_dollars(store.monthly_invoice(@previous_month_start_date).fee_amount) %></td>
+          <td><%= check_box_tag(:status, "paid", store.monthly_invoice(@previous_month_start_date).status, :class => "status", :id => "status", 'data-id' => store.monthly_invoice(@previous_month_start_date).id)%></td>
         <% else %>
           <td><%= store.name %></td>
+          <td><%= amount_in_dollars(store.monthly_fee(@previous_month_start_date)) %></td>
+          <td></td>
         <% end %>
-        <td><%= amount_in_dollars(store.monthly_fee(@previous_month_start_date)) %></td>
-          <td>
-            <% if store.monthly_invoice(@previous_month_start_date) %>
-              <%= check_box_tag(:status, "paid", store.monthly_invoice(@previous_month_start_date).status, :class => "status", :id => "status", 'data-id' => store.monthly_invoice(@previous_month_start_date).id)%>
-            <% end %>
-          </td>
         <td>
           <div class="btn-group">
             <% if store.status != "disabled" %>
