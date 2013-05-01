@@ -270,6 +270,12 @@ LineItem.create!(product_id: 23, cart_id: nil,
 # o10 = Order.create!(status: "returned", user_id: 4, total_cost: 460, store_id: 1)
 # o10.update_attribute(:created_at, "2013-03-02 00:00:00")
 
+#REFUNDS
+r1 = Refund.create!(amount: 2500, order_id: 1)
+r1.update_attribute(:created_at, "2013-03-02 00:00:00")
+r2 = Refund.create!(amount: 1000, order_id: 2)
+r2.update_attribute(:created_at, "2013-03-02 00:00:00")
+
 #ROLES
 Role.create!(title: "admin")
 Role.create!(title: "stocker")

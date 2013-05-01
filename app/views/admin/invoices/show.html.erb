@@ -2,11 +2,14 @@
   <h3>Invoice for <%= @invoice.store.name %></h3>
     <% if @invoice.status == false %>
     <h4>Billing Period: <%= @invoice.start_date.strftime("%m/%d/%Y") %> through <%= @invoice.end_date.strftime("%m/%d/%Y") %></h4>
-      <%= link_to "Pay Invoice", pay_admin_invoice_path(@invoice, :fee => (total_order_amount(@orders) * @percentage)), :method => "GET", class: "btn btn-primary pull-right" %>
+      <%= link_to "Pay Invoice", pay_admin_invoice_path(@invoice, :fee => (total_orders_amount(@orders) * @percentage)), :method => "GET", class: "btn btn-primary pull-right" %>
     <% else %>
       <h4 class="invoice_paid pull-right">Invoice Paid</h4>
     <% end %>
     <br>
+
+    <% total = (total_orders_amount(@orders) + -total_refunds_amount(@orders)) * @percentage %>
+
   <h4>Summary</h4>
     <table class="summary">
       <tr>
@@ -18,15 +21,16 @@
         <td><%= number_to_currency(@invoice.total_revenue.to_f / 100) %></td>
       </tr>
         <td><strong>Epic Store's Fee:</strong></td>
-        <td><%= number_to_currency(@invoice.total_revenue.to_f / 100 * @percentage) %></td>
+        <td><%= amount_in_dollars(total) %></td>
       </tr>
     </table><br>
-    <h4>Details</h4>
+
+    <h4>Order Details</h4>
     <table class="table table-striped">
     <tr>
       <th><h4>Order ID</h4></th>
-      <th><h4>Total Revenue</h4></th>
-      <th><h4>Epic Store's Fee</h4></th>
+      <th><h4>Order Total</h4></th>
+      <th><h4>Fee per Order</h4></th>
     </tr>
     <% @orders.each do |order| %>
     <tr>
@@ -37,13 +41,35 @@
     <% end %>
     <tr class="total owed">
       <td><h3>Total</h3></td>
-      <td><h3><%= amount_in_dollars(total_order_amount(@orders)) %></h3></td>
-      <td><h3><font color="red"><%= total = amount_in_dollars(total_order_amount(@orders) * @percentage) %></h3></td>
+      <td><h3><%= amount_in_dollars(total_orders_amount(@orders)) %></h3></td>
+      <td><h3><font color="red"><%= fee_total = amount_in_dollars(total_orders_amount(@orders) * @percentage) %></h3></td>
     </tr>
   </table>
+  <% if @refunds != [] %>
+    <h4>Refund Details</h4>
+      <table class="table table-striped">
+      <tr>
+        <th><h4>Refund ID</h4></th>
+        <th><h4>Refund Amount</h4></th>
+        <th><h4>Fee Credit per Refund</h4></th>
+      </tr>
+      <% @refunds.each do |refund| %>
+      <tr>
+        <td><%= refund.id %></td>
+        <td><%= amount_in_dollars(refund.amount) %></td>
+        <td><%= amount_in_dollars(-refund.amount * @percentage) %></td>
+      </tr>
+      <% end %>
+      <tr class="total owed">
+        <td><h3>Total</h3></td>
+        <td><h3><%= amount_in_dollars(total_refunds_amount(@orders)) %></h3></td>
+        <td><h3><font color="red"><%= fee_credit_total = amount_in_dollars(-total_refunds_amount(@orders) * @percentage) %></h3></td>
+      </tr>
+    </table>
+  <% end %>
 <% if @invoice.status == false %>
   <h4>
-    <p>Remember, your bill of <%= total %> is due by the 15th.</p>
+    <p>Remember, your bill of <%= amount_in_dollars(total) %> is due by the 15th.</p>
     <p>Thanks!</p>
     <p>Epic Sale</p>
   </h4>

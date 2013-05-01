@@ -4,6 +4,6 @@ class Refund < ActiveRecord::Base
   attr_accessible :order_id
 
   def to_payment
-    Payment.new(-self.total_cost, self.order.store, self.created_at)
+    Payment.new(self.amount * -1, self.order.store, self.created_at)
   end
 end
