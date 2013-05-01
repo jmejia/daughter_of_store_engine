@@ -75,11 +75,12 @@ class Admin::InvoicesController < ApplicationController
     invoice_dates(params)
 
     @stores = Store.all
+    global_fee = GlobalFee.first
 
     @stores.each do |store|
       payments = store.payments(@start_date..@end_date)
       unless payments.empty?
-        InvoiceService.create(payments)
+        InvoiceService.create(payments, global_fee)
 
         store.admins.each do |admin|
           UserMailer.delay.monthly_invoice(store, admin, @start_date)

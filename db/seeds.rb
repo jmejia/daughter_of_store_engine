@@ -281,3 +281,6 @@ Role.create!(title: "stocker")
 #USER ROLES
 UserStore.create!(user_id: 1, store_id: 1, role_id: 1)
 UserStore.create!(user_id: 1, store_id: 2, role_id: 1)
+
+#GLOBAL FEE
+GlobalFee.create(amount: 5)
