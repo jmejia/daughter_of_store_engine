@@ -49,7 +49,7 @@
           <td><%= admin.email %></td>
           <td>
             <% if admin != current_user && !@store.stocker(current_user)%>
-            <%= button_to "Remove Admin", admin_remove_admin_path(@store, id: admin.id),
+            <%= button_to "Remove Admin", admin_remove_admin_path(@store, admin.id),
               {:class => 'btn btn-danger', method: :delete,
                 confirm: "Are you sure you want remove #{admin.full_name} as an admin?" }%>
             <% end %>
