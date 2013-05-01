@@ -53,5 +53,4 @@ class ApplicationController < ActionController::Base
   def current_store
     @current_store ||= Store.find_by_slug(params[:store_slug])
   end
-
 end

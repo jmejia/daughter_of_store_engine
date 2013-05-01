@@ -12,7 +12,9 @@ class Dashboard
   end
 
   def orders
-    @order = Order.products.joins(:stores).where('products.store_id = ?', store.id)
+    @order = Order.products.joins(:stores).where(
+      'products.store_id = ?', store.id
+      )
   end
 
   def statuses

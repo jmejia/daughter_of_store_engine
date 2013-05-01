@@ -44,5 +44,4 @@ class ProductsController < ApplicationController
       render :show
     end
   end
-
 end

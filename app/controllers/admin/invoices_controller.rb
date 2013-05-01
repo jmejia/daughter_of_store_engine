@@ -1,5 +1,6 @@
 class Admin::InvoicesController < ApplicationController
-  before_filter :require_admin, except: [:show, :store_invoices, :pay, :submit_payment]
+  before_filter :require_admin,
+                except: [:show, :store_invoices, :pay, :submit_payment]
 
   def index
     @invoices = Invoice.all
@@ -53,7 +54,8 @@ class Admin::InvoicesController < ApplicationController
     invoice = Invoice.find(params[:id])
 
     if invoice.update_attributes(params[:invoice])
-      redirect_to session[:return_to], :notice => "Your invoice has been successfully paid."
+      redirect_to session[:return_to],
+        :notice => "Your invoice has been successfully paid."
     else
       render :pay, :notice => "We were unable to process your payment."
     end
@@ -65,10 +67,13 @@ class Admin::InvoicesController < ApplicationController
       invoices = Invoice.find_unpaid_for(@start_date)
       invoices.each do |invoice|
         invoice.store.admins.each do |admin|
-          UserMailer.delay.monthly_invoice_reminder(invoice.store, admin, @start_date)
+          UserMailer.delay.monthly_invoice_reminder(
+            invoice.store, admin, @start_date
+            )
         end
       end
-    redirect_to :back, :notice => "Emails have been sent to unpaid invoice store admins."
+    redirect_to :back,
+      :notice => "Emails have been sent to unpaid invoice store admins."
   end
 
   def generate_invoices
