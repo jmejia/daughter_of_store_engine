@@ -1,5 +1,5 @@
 class InvoiceService
-  def self.create(payments, start_date, end_date)
+  def self.create(payments)
     payment_dates = payments.collect(&:created_at)
     start_date    = payment_dates.min
     end_date      = payment_dates.max
