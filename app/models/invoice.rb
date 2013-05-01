@@ -22,10 +22,10 @@ class Invoice < ActiveRecord::Base
   end
 
   def self.outstanding_balance(start_date)
-    monthly_invoices = Invoice.where(created_at: start_date.beginning_of_day..start_date.end_of_month.end_of_day)
+    monthly_invoices = Invoice.where(start_date: start_date.beginning_of_day..start_date.end_of_month.end_of_day)
 
     if monthly_invoices.empty?
-      Order.total_monthly_fees(start_date - 1.month)
+      Order.total_monthly_fees(start_date)
     else
       monthly_invoices = monthly_invoices.where(status: false)
       order_fee = monthly_invoices.inject(0){ |sum, invoice| sum + invoice.fee_amount }
