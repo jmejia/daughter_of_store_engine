@@ -17,6 +17,10 @@ class Order < ActiveRecord::Base
   has_one    :visitor, through: :visitor_order
   has_many   :refunds
 
+  def to_payment
+    Payment.new(self.total_cost, self.store, self.created_at)
+  end
+
   def self.total_monthly_fees(start_date)
     end_date       = start_date.end_of_month
     monthly_orders = Order.where(:created_at => start_date.beginning_of_day..start_date.end_of_month)

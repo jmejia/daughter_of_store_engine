@@ -23,8 +23,8 @@
         <td><%= order.user_id %></td>
         <td><%= order.status %></td>
         <td><%= button_to "Process Refund", admin_refund_path(@store.slug, order.id),
-              {:class => 'btn btn-primary', method: :get,
-                confirm: "Are you sure you want process a refund for Order # #{order.id}?" } %></td>
+            {:class => 'btn btn-primary', method: :get} %>
+        </td>
       </tr>
     <% end %>
   </table>
