@@ -27,7 +27,7 @@ class Order < ActiveRecord::Base
       :created_at => start_date.beginning_of_day..start_date.end_of_month
       )
     order_fee      = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
-    (order_fee * 0.05).to_i
+    (order_fee * GlobalFee.first.percentage).to_i
   end
 
   def to_param

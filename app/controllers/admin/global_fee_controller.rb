@@ -12,4 +12,6 @@ class Admin::GlobalFeeController < ApplicationController
       flash[:alert] = "Unable to update the Global Fee."
     end
   end
+
+
 end

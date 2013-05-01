@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find_by_confirmation(params[:id])
+    @order = Order.find(params[:id])
 
     if @order.user && @order.user == current_user
       @user = @order.user

@@ -107,7 +107,7 @@ describe Store do
       end
 
       it "calculates the monthly fee based on all orders within that month" do
-        puts subject.orders.first.created_at
+        subject.orders.first.created_at
         expect(subject.monthly_fee(last_month)).to eq(3000 * 0.05)
       end
 

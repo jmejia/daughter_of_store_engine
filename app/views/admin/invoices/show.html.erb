@@ -1,10 +1,12 @@
 <div class="well well-large">
-  <h3>Invoice for <%= @invoice.store.name %></h3><br>
+  <h3>Invoice for <%= @invoice.store.name %></h3>
     <% if @invoice.status == false %>
-      <%= link_to "Pay Invoice", pay_admin_invoice_path(@invoice, :fee => (total_order_amount(@orders) * 0.05)), :method => "GET", class: "btn btn-primary pull-right" %>
+    <h4>Billing Period: <%= @invoice.start_date.strftime("%m/%d/%Y") %> through <%= @invoice.end_date.strftime("%m/%d/%Y") %></h4>
+      <%= link_to "Pay Invoice", pay_admin_invoice_path(@invoice, :fee => (total_order_amount(@orders) * @percentage)), :method => "GET", class: "btn btn-primary pull-right" %>
     <% else %>
       <h4 class="invoice_paid pull-right">Invoice Paid</h4>
     <% end %>
+    <br>
   <h4>Summary</h4>
     <table class="summary">
       <tr>
@@ -16,7 +18,7 @@
         <td><%= number_to_currency(@invoice.total_revenue.to_f / 100) %></td>
       </tr>
         <td><strong>Epic Store's Fee:</strong></td>
-        <td><%= number_to_currency(@invoice.total_revenue.to_f / 100 * 0.05) %></td>
+        <td><%= number_to_currency(@invoice.total_revenue.to_f / 100 * @percentage) %></td>
       </tr>
     </table><br>
     <h4>Details</h4>
@@ -30,13 +32,13 @@
     <tr>
       <td><%= order.id %></td>
       <td><%= amount_in_dollars(order.total_cost) %></td>
-      <td><%= amount_in_dollars(order.total_cost * 0.05) %></td>
+      <td><%= amount_in_dollars(order.total_cost * @percentage) %></td>
     </tr>
     <% end %>
     <tr class="total owed">
       <td><h3>Total</h3></td>
       <td><h3><%= amount_in_dollars(total_order_amount(@orders)) %></h3></td>
-      <td><h3><font color="red"><%= total = amount_in_dollars(total_order_amount(@orders) * 0.05) %></h3></td>
+      <td><h3><font color="red"><%= total = amount_in_dollars(total_order_amount(@orders) * @percentage) %></h3></td>
     </tr>
   </table>
 <% if @invoice.status == false %>
