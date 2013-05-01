@@ -10,6 +10,7 @@
       <th><h4>Order #</h4></th>
       <th><h4>Date</h4></th>
       <th><h4>Total</h4></th>
+      <th><h4>Refunded Amount</h4></th>
       <th><h4>Customer #</h4></th>
       <th><h4>Status</h4></th>
       <th><h4>Actions</h4></th>
@@ -20,6 +21,7 @@
         <td><%= order.id %></td>
         <td><%= order.created_at.strftime("%d %b %y") %></td>
         <td><%= amount_in_dollars(order.total_cost) %></td>
+        <td><%= amount_in_dollars(order.refunds.reduce(0){ |sum, refund| sum + refund.amount }) %></td>
         <td><%= order.user_id %></td>
         <td><%= order.status %></td>
         <td><%= button_to "Process Refund", admin_refund_path(@store.slug, order.id),
