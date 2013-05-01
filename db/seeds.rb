@@ -179,7 +179,6 @@ p.save!
 # p.save!
 
 #USERS
-user1 = User.create!(full_name: "Erin", email: "e.b.drummond@gmail.com", password: "pw", role: :user)
 User.create!(full_name: "Franklin Webber", email: "demoXX+franklin@jumpstartlab.com",
   password: "password", role: :user, display_name: nil)
 User.create!(full_name: "Jeff", email: "demoXX+jeff@jumpstartlab.com",
@@ -279,7 +278,7 @@ Role.create!(title: "stocker")
 #Invoice.create!(store_id: 1, start_date: Date.new(2010,10,01), end_date: Date.new(2010,10,20), total_revenue: 300, fee_amount: 15)
 
 #USER ROLES
-UserStore.create!(user_id: user1.id, store_id: store.id, role_id: 1)
+#UserStore.create!(user_id: user1.id, store_id: store.id, role_id: 1)
 # UserStore.create!(user_id: 1, store_id: 2, role_id: 1)
 
 #GLOBAL FEE
