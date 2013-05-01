@@ -26,12 +26,19 @@ class Order < ActiveRecord::Base
   end
 
   def self.total_monthly_fees(start_date)
-    end_date       = start_date.end_of_month
-    monthly_orders = Order.where(
+    end_date        = start_date.end_of_month
+    monthly_orders  = Order.where(
       :created_at => start_date.beginning_of_day..start_date.end_of_month
       )
-    order_fee      = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
-    (order_fee * GlobalFee.first.percentage).to_i
+    monthly_refunds = Refund.where(
+      :created_at => start_date.beginning_of_day..start_date.end_of_month
+      )
+    order_fee  = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
+    refund_fee = monthly_refunds.inject(0){ |sum, refund| sum + refund.amount }
+
+    fee        = order_fee - refund_fee
+
+    (fee * GlobalFee.first.percentage).to_i
   end
 
   def to_param
