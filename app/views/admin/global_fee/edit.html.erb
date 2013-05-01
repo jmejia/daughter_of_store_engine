@@ -1,8 +1,12 @@
-<h1>Edit Global Fee</h1>
-<strong>Changing the global fee will be applied for future invoices</strong>
-<%= form_for @global_fee, :url => edit_admin_global_fee_path, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.label :amount, :class => 'control-label' %>
-  <div class="controls">
-    <%= f.text_field :amount, :class => 'text_field' %>
-  </div>
-<% end %>
+<div class="well well-large">
+  <h1>Set Global Fee</h1>
+  <p><strong>Changing the global fee will be applied for future invoices</strong></p>
+  <%= form_for @global_fee, :url => admin_global_fee_path, :html => { :class => 'form' } do |f| %>
+    <div class="controls">
+      <%= f.text_field :amount, :class => 'input-small' %> %
+    </div>
+    <div class="actions">
+      <%= f.submit "Set Fee", :class => "btn btn-warning" %>
+    </div>
+  <% end %>
+</div>
