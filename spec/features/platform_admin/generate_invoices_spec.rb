@@ -17,6 +17,7 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
                                total_cost: 1000)}
 
   before do
+    GlobalFee.create(amount: 10)
     order.created_at = Date.today.ago(1.month)
     order.save
     visit login_path

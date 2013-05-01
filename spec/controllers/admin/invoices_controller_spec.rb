@@ -3,7 +3,9 @@ require 'spec_helper'
 describe Admin::InvoicesController do
   fixtures :all
 
-  let!(:store) { stores(:test) }
+  let!(:store) { Store.create!(name: "Warm Runnings",
+                                slug: "warm-runnings",
+                                status: "approved") }
   let!(:order) { orders(:test) }
   let!(:user)  { users(:test) }
 
@@ -19,9 +21,10 @@ describe Admin::InvoicesController do
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     @controller.stub(:current_ability).and_return(@ability)
+    @global_fee = GlobalFee.create!(amount: 10)
   end
 
-  let!(:invoice) { InvoiceService.create(@orders) }
+  let!(:invoice) { InvoiceService.create(@orders, @global_fee) }
 
   def valid_attributes
     {store_id: store.id,

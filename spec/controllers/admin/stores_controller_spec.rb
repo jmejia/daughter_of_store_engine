@@ -35,7 +35,7 @@ describe Admin::StoresController do
   describe "GET index" do
     it "assigns non-declined stores as @stores" do
       get :index
-      assigns(:stores).should eq([store])
+      assigns(:stores).count.should eq 1
     end
   end
 

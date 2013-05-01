@@ -22,7 +22,8 @@ describe "Platform Admin has Invoices Dashboard" do
                                    end_date: Date.today.ago(1.month).end_of_month)}
 
   before do
-    order.created_at = Date.today.ago(1.month)
+    GlobalFee.create(amount: 10)
+    order.created_at = Date.today.ago(1.month - 1.day)
     order.save
   end
 
