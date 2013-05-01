@@ -23,7 +23,9 @@ class Order < ActiveRecord::Base
 
   def self.total_monthly_fees(start_date)
     end_date       = start_date.end_of_month
-    monthly_orders = Order.where(:created_at => start_date.beginning_of_day..start_date.end_of_month)
+    monthly_orders = Order.where(
+      :created_at => start_date.beginning_of_day..start_date.end_of_month
+      )
     order_fee      = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
     (order_fee * GlobalFee.first.percentage).to_i
   end
@@ -40,9 +42,11 @@ class Order < ActiveRecord::Base
 
   def generate_confirmation_code
     if user
-      self.confirmation ||= Digest::SHA1.hexdigest("#{user.email}#{DateTime.now}")[0..15]
+      self.confirmation ||= Digest::SHA1.hexdigest(
+        "#{user.email}#{DateTime.now}")[0..15]
     elsif visitor
-      self.confirmation ||= Digest::SHA1.hexdigest("#{visitor.email}#{DateTime.now}")[0..15]
+      self.confirmation ||= Digest::SHA1.hexdigest(
+        "#{visitor.email}#{DateTime.now}")[0..15]
     end
   end
 

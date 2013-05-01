@@ -35,5 +35,4 @@ class StoresController < ApplicationController
 
     redirect_to stores_path
   end
-
 end
