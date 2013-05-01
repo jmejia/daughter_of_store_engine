@@ -21,6 +21,7 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
                                  end_date: Date.today.ago(1.month).end_of_month)}
 
   before do
+    GlobalFee.create(amount: 10)
     order.created_at = Date.today.ago(1.month)
     order.save
     visit login_path
@@ -45,6 +46,7 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
   context "when invoices are generated and I visit a store and click Pay Invoice" do
     before do
       click_button("Generate Invoices")
+      save_and_open_page
       click_link("Oregon Sale")
       click_link("Pay Invoice")
     end
