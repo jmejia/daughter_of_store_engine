@@ -4,4 +4,3 @@ class ProductCategory < ActiveRecord::Base
   belongs_to :category
 end
 
-####Fix. Make into has_and_belongs_to_many without this model
