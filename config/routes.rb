@@ -16,6 +16,9 @@ StoreEngine::Application.routes.draw do
         post ':year/:month' => 'invoices#generate_invoices',
         :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
         :as => 'generate'
+        post 'reminder/:year/:month' => 'invoices#reminder_invoices',
+        :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
+        :as => 'reminder'
         get  :store_invoices, :as => :store
         get ':year/:month' => 'invoices#index',
           :constraints => { :year => /\d{4}/, :month => /\d{2}/ },
@@ -84,14 +87,19 @@ StoreEngine::Application.routes.draw do
         end
       end
 
-      resources :refunds
+      resources :refunds, :except => [:new, :create] do
+        member do
+          get  "new"    => "refunds#new"
+          post "create" => "refunds#create"
+        end
+      end
 
       resources :orders
 
       post "create_admin"   => "stores#create_admin"
-      get "new_admin"       => "stores#new_admin"
+      get  "new_admin"      => "stores#new_admin"
       post "create_stocker" => "stores#create_stocker"
-      get "new_stocker"     => "stores#new_stocker"
+      get  "new_stocker"    => "stores#new_stocker"
     end
   end
 end

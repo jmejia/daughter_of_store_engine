@@ -1,32 +1,8 @@
-<%= form_for(@order) do |f| %>
-  <% if @order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+<div class="field">
+  <%= label_tag :total_cost, "Amount" %>
+  <%= text_field_tag :total_cost %>
+</div>
 
-      <ul>
-      <% @order.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= label_tag :total_cost, "Amount" %>
-    <%= text_field_tag :total_cost %>
-  </div>
-
-  <div class="field">
-    <%= label_tag :email, "Email" %>
-    <%= text_field_tag :email %>
-  </div>
-
-  <div class="field">
-    <%= f.hidden_field :status, value: "refund" %>
-  </div>
-
-  <div class="actions">
-    <%= link_to "Submit Order", admin_refunds_path(@store_slug), :class => "btn btn-primary" %>
-  </div>
-
-<% end %>
+<div class="actions">
+  <%= link_to "Process Refund", admin_refund_path(@store_slug, @order.id), :method => 'POST', :class => "btn btn-primary" %>
+</div>
