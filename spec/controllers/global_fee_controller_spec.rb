@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GlobalFeeController do
+describe Admin::GlobalFeeController do
 
   describe "GET 'edit'" do
     it "returns http success" do
