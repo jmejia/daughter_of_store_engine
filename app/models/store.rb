@@ -1,11 +1,10 @@
 class Store < ActiveRecord::Base
   attr_accessible :description, :name, :slug, :status
 
-  # scope :payments, (lambda do |date_range|
+  # scope :payments, lambda { |date_range|
   #   order_payments  = orders.where(:created_at => date_range).map(&:to_payment)
   #   refund_payments = refunds.where(:created_at => date_range).map(&:to_payment)
-  #   order_payments + refund_payments
-  # end)
+  #   order_payments + refund_payments }
 
   def payments(date_range)
     order_payments  = orders.where(:created_at => date_range).map(&:to_payment)
