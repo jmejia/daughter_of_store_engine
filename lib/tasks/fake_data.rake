@@ -26,7 +26,7 @@ namespace :db do
 
     # creates fake products for each store
     count = 0
-    250.times do |p|
+    20.times do |p|
       count += 1
       puts "product #{count}"
       retired = "retired"
@@ -35,7 +35,6 @@ namespace :db do
                                                   price: 300000 + Random.rand(100000),
                                                   #category_ids: [store.category_ids.sample],
                                                   category_ids: store.categories.sample.id,
-                                                  retired: retired,
                                                   image_name: 1 + rand(110)
                                                   )}
     end
@@ -85,9 +84,24 @@ namespace :db do
                    email: "example-#{u+1}@epicsale.com",
                    password: "password",
                    password_confirmation: "password",
-                   platform_administrator: false,
-                   role: ["stocker", "admin", nil].sample
+                   platform_administrator: false
                   )
+    end
+  end
+
+  desc "Create fake orders"
+  task populate: :environment do
+    GlobalFee.create(amount: 5)
+    count = 0
+    100.times do |o|
+      count += 1
+      puts "order #{count}"
+      user_id = rand(1..50)
+      total_cost = rand(1..10000000)
+      store_id = rand(1..21)
+      order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
+      order.created_at = Date.today.ago(1.month - 1.day)
+      order.save
     end
   end
 end
