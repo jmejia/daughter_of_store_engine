@@ -19,11 +19,14 @@ class Admin::InvoicesController < ApplicationController
   end
 
   def show
-    @invoice = Invoice.find(params[:id])
+    @invoice    = Invoice.find(params[:id])
+    @store      = @invoice.store
     @percentage = @invoice.fee_percentage/100.to_f
-    @orders  = @invoice.store.orders.select do |order|
-        order.created_at >= @invoice.start_date && order.created_at <= @invoice.end_date
-      end
+    @orders     = @invoice.store.orders.select do |order|
+      order.created_at >= @invoice.start_date && order.created_at <= @invoice.end_date
+    end
+
+    refunds(@orders, @invoice)
 
     if @invoice.store.admins.include?(current_user) || (current_user && current_user.platform_administrator)
       render 'show'
@@ -97,6 +100,20 @@ class Admin::InvoicesController < ApplicationController
   end
 
   private
+
+  def refunds(orders, invoice)
+    order_refunds = []
+
+    orders.each do |order|
+      order.refunds.each { |refund| order_refunds << refund }
+    end
+
+    @refunds = order_refunds.select do |refund|
+      refund.created_at >= invoice.start_date && refund.created_at <= invoice.end_date
+    end
+
+    @refunds
+  end
 
   def invoice_dates(params)
     @date = Date.new(params[:year].to_i, params[:month].to_i)

@@ -21,6 +21,10 @@ class Order < ActiveRecord::Base
     Payment.new(self.total_cost, self.store, self.created_at)
   end
 
+  def refund_amount
+    self.refunds.collect(&:amount).reduce(:+)
+  end
+
   def self.total_monthly_fees(start_date)
     end_date       = start_date.end_of_month
     monthly_orders = Order.where(
