@@ -19,6 +19,7 @@ class Admin::InvoicesController < ApplicationController
 
   def show
     @invoice = Invoice.find(params[:id])
+    @percentage = @invoice.fee_percentage/100.to_f
     @orders  = @invoice.store.orders.select do |order|
         order.created_at >= @invoice.start_date && order.created_at <= @invoice.end_date
       end
@@ -75,11 +76,12 @@ class Admin::InvoicesController < ApplicationController
     invoice_dates(params)
 
     @stores = Store.all
+    @global_fee = GlobalFee.first
 
     @stores.each do |store|
       payments = store.payments(@start_date..@end_date)
       unless payments.empty?
-        InvoiceService.create(payments)
+        InvoiceService.create(payments, @global_fee)
 
         store.admins.each do |admin|
           UserMailer.delay.monthly_invoice(store, admin, @start_date)
