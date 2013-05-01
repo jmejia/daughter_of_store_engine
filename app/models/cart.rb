@@ -1,5 +1,4 @@
 class Cart < ActiveRecord::Base
-  # attr_accessible :title, :body
   has_many :line_items
   belongs_to :store
 
@@ -18,5 +17,4 @@ class Cart < ActiveRecord::Base
   def calculate_total_cost
     line_items.map { |item| item.total }.inject(0, :+)
   end
-
 end

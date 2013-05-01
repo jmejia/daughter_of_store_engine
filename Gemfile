@@ -18,7 +18,7 @@ gem 'newrelic_rpm'
 gem 'coffee-rails', '~> 3.2.1'
 gem 'uglifier', '>= 1.0.3'
 gem "bullet", :group => "development"
-gem 'binding_of_caller', :group => 'development'
+#gem 'binding_of_caller', :group => 'development'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
