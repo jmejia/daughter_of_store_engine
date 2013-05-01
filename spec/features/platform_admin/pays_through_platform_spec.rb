@@ -14,15 +14,15 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
                                store_id: store.id,
                                total_cost: 1000)}
 
-  let(:invoice) { Invoice.create(store_id: store.id,
-                                 total_revenue: 1000,
-                                 fee_amount: 50,
-                                 start_date: Date.today.ago(1.month).beginning_of_month,
-                                 end_date: Date.today.ago(1.month).end_of_month)}
+  # let(:invoice) { Invoice.create(store_id: store.id,
+  #                                total_revenue: 1000,
+  #                                fee_amount: 50,
+  #                                start_date: Date.today.ago(1.month).beginning_of_month,
+  #                                end_date: Date.today.ago(1.month).end_of_month)}
 
   before do
     GlobalFee.create(amount: 10)
-    order.created_at = Date.today.ago(1.month)
+    order.created_at = (Date.today - 1.month + 1.day).beginning_of_day
     order.save
     visit login_path
     fill_in("Email", with: platform_admin.email)
@@ -46,7 +46,6 @@ describe "Given I am an admin on the platform and I am in the invoices page" do
   context "when invoices are generated and I visit a store and click Pay Invoice" do
     before do
       click_button("Generate Invoices")
-      save_and_open_page
       click_link("Oregon Sale")
       click_link("Pay Invoice")
     end

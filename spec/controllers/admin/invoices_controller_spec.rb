@@ -3,7 +3,9 @@ require 'spec_helper'
 describe Admin::InvoicesController do
   fixtures :all
 
-  let!(:store) { stores(:test) }
+  let!(:store) { Store.create!(name: "Warm Runnings",
+                                slug: "warm-runnings",
+                                status: "approved") }
   let!(:order) { orders(:test) }
   let!(:user)  { users(:test) }
 

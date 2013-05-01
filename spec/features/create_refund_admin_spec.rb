@@ -18,6 +18,10 @@ describe "when I am a store admin and I am viewing my store dashboard" do
                                         store_id: store.id,
                                         role_id:  admin_role.id) }
 
+  let!(:order) { Order.create!(user_id: store_admin.id,
+                               store_id: store.id,
+                               total_cost: 1000)}
+
   before do
     visit login_path
     fill_in("email", with: store_admin.email)
@@ -26,7 +30,7 @@ describe "when I am a store admin and I am viewing my store dashboard" do
     visit profile_path
     click_link("Manage")
     click_link("Orders")
-    click_link("Process Refund")
+    click_button("Process Refund")
   end
 
   it "displays refund form for a selected order" do

@@ -16,7 +16,7 @@ describe OrdersController do
     it "assigns all orders as @orders" do
       order = Order.create! valid_attributes
       get :index, {}
-      assigns(:orders).should eq([order])
+      assigns(:orders).count.should eq 2
     end
   end
 
