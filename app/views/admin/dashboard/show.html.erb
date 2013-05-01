@@ -2,18 +2,18 @@
   <h2>Dashboard</h2>
 
   <h3>Invoices</h3>
-  <%= link_to "Set Global Fee", edit_global_fee_path %><br />
   <div class="btn-group">
-    <%= link_to "Current", monthly_admin_invoices_path(year: @current_date.strftime("%Y"),
-                                                                 month: @current_date.strftime("%m")),
-                                                                 class: "btn btn-primary" %>
-    <% 6.times do %>
-      <% @current_date -= 1.month %>
-      <%= link_to "#{@current_date.strftime("%B")} #{@current_date.strftime("%Y")}", monthly_admin_invoices_path(year: @current_date.strftime("%Y"),
-                                                        month: @current_date.strftime("%m")),
-                                                        class: "btn btn-info" %>
-    <% end %>
+      <%= link_to "Current", monthly_admin_invoices_path(year: @current_date.strftime("%Y"),
+                                                                   month: @current_date.strftime("%m")),
+                                                                   class: "btn btn-primary" %>
+      <% 6.times do %>
+        <% @current_date -= 1.month %>
+        <%= link_to "#{@current_date.strftime("%B")} #{@current_date.strftime("%Y")}", monthly_admin_invoices_path(year: @current_date.strftime("%Y"),
+                                                          month: @current_date.strftime("%m")),
+                                                          class: "btn btn-info" %>
+                                                        <% end %>
   </div>
+  <div><br ><p><%= link_to "Edit Global Fee Percentage", edit_admin_global_fee_path, :class => "btn btn-danger" %></p></div>
   <h3>Stores</h3>
   <%= link_to "Stores (#{Store.all.count})", admin_stores_path, :class => "btn btn-primary" %>
 </div>

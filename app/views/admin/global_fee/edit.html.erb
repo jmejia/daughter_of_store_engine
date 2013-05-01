@@ -1,0 +1,8 @@
+<h1>Edit Global Fee</h1>
+<strong>Changing the global fee will be applied for future invoices</strong>
+<%= form_for @global_fee, :url => edit_admin_global_fee_path, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.label :amount, :class => 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :amount, :class => 'text_field' %>
+  </div>
+<% end %>

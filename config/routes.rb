@@ -5,6 +5,7 @@ StoreEngine::Application.routes.draw do
   resources :users
 
   namespace :admin do
+    resource :global_fee, :only => [:edit], :controller => "global_fee"
     resources :invoices do
 
 

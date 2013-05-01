@@ -23,7 +23,9 @@ describe "Platform Admin sets global fee percentage" do
 
     it "changes the global fee percentage" do
       visit admin_dashboard_path
-      expect(page).to have_content("Set Global Fee")
+      click_link("Edit Global Fee")
+      expect(page).to have_content("edit")
+      #fill_in("amount", :with => "10")
     end
 
     it "displays the correct fee amount for orders that have been placed"
