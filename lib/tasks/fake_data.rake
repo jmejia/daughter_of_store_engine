@@ -28,7 +28,7 @@ namespace :db do
 
     # creates fake products for each store
     count = 0
-    500.times do |p|
+    1000.times do |p|
       count += 1
       puts "product #{count}"
       stores.each {|store| store.products.create!(description: Faker::Lorem.sentence,
@@ -79,7 +79,7 @@ namespace :db do
   desc "Fill database with fake users"
   task populate: :environment do
     count = 0
-    100.times do |u|
+    1000.times do |u|
       count += 1
       puts "user #{count}"
       first_name = Faker::Name.first_name
