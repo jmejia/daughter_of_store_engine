@@ -77,6 +77,4 @@ class Admin::ProductsController < ApplicationController
 
     redirect_to admin_products_path, notice: "Product is active"
   end
-
-
 end

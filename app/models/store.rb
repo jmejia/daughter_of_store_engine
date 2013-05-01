@@ -1,11 +1,6 @@
 class Store < ActiveRecord::Base
   attr_accessible :description, :name, :slug, :status
 
-  # scope :payments, lambda { |date_range|
-  #   order_payments  = orders.where(:created_at => date_range).map(&:to_payment)
-  #   refund_payments = refunds.where(:created_at => date_range).map(&:to_payment)
-  #   order_payments + refund_payments }
-
   def payments(date_range)
     order_payments  = orders.where(:created_at => date_range).map(&:to_payment)
     refund_payments = refunds.where(:created_at => date_range).map(&:to_payment)
@@ -30,19 +25,25 @@ class Store < ActiveRecord::Base
   end
 
   def monthly_fee(start_date)
-    monthly_orders = orders.where(:created_at => start_date.beginning_of_day..start_date.end_of_month)
+    monthly_orders = orders.where(
+      :created_at => start_date.beginning_of_day..start_date.end_of_month
+      )
     order_fee = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
-    order_fee * 0.05
+    order_fee * GlobalFee.first.percentage
   end
 
   def admins
-    User.joins(:user_stores).where("user_stores.store_id = ? AND user_stores.role_id = ?",
-                                  id, Role.admin.id)
+    User.joins(:user_stores).where(
+      "user_stores.store_id = ? AND user_stores.role_id = ?",
+      id, Role.admin.id
+      )
   end
 
   def stockers
-    User.joins(:user_stores).where("user_stores.store_id = ? AND user_stores.role_id = ?",
-                                  id, Role.stocker.id)
+    User.joins(:user_stores).where(
+      "user_stores.store_id = ? AND user_stores.role_id = ?",
+      id, Role.stocker.id
+      )
   end
 
   def admin(user_id)
@@ -92,10 +93,6 @@ class Store < ActiveRecord::Base
   def to_param
     slug
   end
-
-  # def self.find(slug)
-  #   find_by_slug(slug)
-  # end
 
   def pending?
     status == "pending"

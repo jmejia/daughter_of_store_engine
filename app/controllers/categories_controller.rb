@@ -68,5 +68,4 @@ class CategoriesController < ApplicationController
   def edit_store_category_path(category)
     edit_category_path(category.store, category)
   end
-
 end

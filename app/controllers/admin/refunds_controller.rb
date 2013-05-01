@@ -10,6 +10,7 @@ class Admin::RefundsController < ApplicationController
 
     RefundService.create(order, amount)
 
-    redirect_to admin_orders_path, :notice => "A refund for Order # #{order.id} is been created"
+    redirect_to admin_orders_path,
+      :notice => "A refund for Order # #{order.id} is been created"
   end
 end

@@ -110,7 +110,8 @@ class Admin::StoresController < ApplicationController
     #@store = Store.find(params[:store_id])
     user = store.users.first
     if store.decline_status
-      redirect_to admin_stores_path, notice: "The status for #{store.name} has been set to 'declined' and a message has been sent to #{user.email}."
+      redirect_to admin_stores_path,
+        notice: "The status for #{store.name} has been set to 'declined' and a message has been sent to #{user.email}."
       UserMailer.delay.store_decline_notification(user.email, store.name)
     else
       flash[:errors] = "We're sorry. There was a problem declining #{store.name}."
@@ -123,7 +124,6 @@ class Admin::StoresController < ApplicationController
     store = Store.find_by_slug(params[:store_id])
     if store.disable_status
       redirect_to :back, notice: "#{store.name} has been disabled."
-      # store = Store.find_by_slug(params[:store_id])
       store.admins.each do |admin|
         UserMailer.delay.store_disabled(store, admin)
       end

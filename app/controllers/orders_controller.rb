@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find_by_confirmation(params[:id])
+    @order = Order.find(params[:id])
 
     if @order.user && @order.user == current_user
       @user = @order.user
@@ -51,7 +51,8 @@ class OrdersController < ApplicationController
       @order.update_attribute("store_id", current_cart.store_id)
       deliver_confirmation(@order.owner, @order)
       clear_cart
-      redirect_to order_path(@order.id), notice: 'Thanks! Your order was submitted.'
+      redirect_to order_path(@order.id),
+        notice: 'Thanks! Your order was submitted.'
     else
       render action: "new"
     end

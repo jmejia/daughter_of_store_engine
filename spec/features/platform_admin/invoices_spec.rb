@@ -11,40 +11,41 @@ describe "Platform Admin has Invoices Dashboard" do
                                 slug: "warm-runnings",
                                 status: "approved") }
 
+  let!(:order) { Order.create!(user_id: platform_admin.id,
+                               store_id: store.id,
+                               total_cost: 1000)}
+
+  let!(:invoice) { Invoice.create!(store_id: store.id,
+                                   total_revenue: 1000,
+                                   fee_amount: 50,
+                                   start_date: Date.today.ago(1.month).beginning_of_month,
+                                   end_date: Date.today.ago(1.month).end_of_month)}
+
   before do
-    order1 = Order.new(total_cost: 80, store_id: store.id)
-    order1.created_at = Date.new(2010,10,10)
-    order1.save
-    order2 = Order.new(total_cost: 120, store_id: store.id)
-    order2.created_at = Date.new(2010,10,11)
-    order2.save
-    orders = store.orders
-    InvoiceService.create(orders)
+    order.created_at = Date.today.ago(1.month)
+    order.save
   end
 
   context "as an invalid user" do
     it "throws an error" do
-      visit admin_invoices_path
+      visit monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                        month: Date.today.strftime("%m"))
       expect(page).to have_content("Sorry")
     end
-  end
 
-  context "as an invalid user" do
     it "throws an error" do
-      visit admin_dashboard_path
+      visit monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                        month: Date.today.strftime("%m"))
       expect(page).to have_content("Sorry")
     end
-  end
 
-  context "as an invalid user" do
     it "throws an error" do
-      visit admin_invoice_path(1)
+      visit admin_invoice_path(invoice.id)
       expect(page).to have_content("Sorry")
     end
   end
 
   context "as a valid user" do
-
     before do
       visit login_path
       fill_in("Email", with: platform_admin.email)
@@ -57,20 +58,29 @@ describe "Platform Admin has Invoices Dashboard" do
     end
 
     it "shows a link to view the Invoices" do
-      expect(page).to have_link("Invoices", href: admin_invoices_path)
+      expect(page).to have_link("Current", href: monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                                                            month: Date.today.strftime("%m")))
     end
 
     it "displays the Invoices" do
-      click_link("Invoices")
-      expect(current_path).to eq admin_invoices_path
+      click_link("Current")
+      expect(current_path).to eq monthly_admin_invoices_path(year: Date.today.strftime("%Y"),
+                                                             month: Date.today.strftime("%m"))
     end
 
     # it "updates an invoice to paid" do
-    #   click_link("Invoices")
+    #   Invoice.destroy_all
+    #   click_link("Current")
     #   click_button("Generate Invoices")
+    #   page.check("status")
     #   save_and_open_page
-    #   page.check(store.monthly_invoice.id)
     #   page.should have_content("Successfully changed")
     # end
+
+    it "allows admin to send reminder email if invoices are already generated" do
+      click_link("Current")
+      click_button("Send reminder email")
+      page.should have_content("Emails have been sent")
+    end
   end
 end

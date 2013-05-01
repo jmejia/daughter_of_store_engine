@@ -1,9 +1,10 @@
 <div class="well well-large">
 <p id="notice"><%= notice %></p>
 
-
-<h5>Full Name: <%= @user %></h5>
-<h5>User Email: <%= @user.email %></h5>
+<% if @order.user %>
+<h5>Full Name: <%= @order.user.full_name %></h5>
+<% end %>
+<h5>User Email: <%= @order.user.email || @order.visitor.email %></h5>
 <h5>Order Status: <%= @order.status.capitalize %></h5>
 <h5>Order Date / Time: <%= @order.created_at %><br/></h5>
 <br/>
@@ -41,7 +42,7 @@
 <%= link_to 'Paid | ', change_status_on_order_path(:id => @order.id, :status => 'paid'), :method => "put" if @order.status != "paid" %>
 <%= link_to 'Shipped | ', change_status_on_order_path(:id => @order.id, :status => 'shipped'), :method => "put" if @order.status != "shipped" %>
 <%= link_to 'Returned | ', change_status_on_order_path(:id => @order.id, :status => 'returned'), :method => "put" if @order.status != "returned" %>
-<%= link_to 'Edit Order | ', edit_order_path(@order) %>
+<%= link_to 'Edit Order | ', edit_order_path(@order.id) %>
 
 <% end %>
 </div>
