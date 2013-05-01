@@ -69,11 +69,18 @@ describe "Platform Admin has Invoices Dashboard" do
     end
 
     # it "updates an invoice to paid" do
-    #   click_link("Invoices")
+    #   Invoice.destroy_all
+    #   click_link("Current")
     #   click_button("Generate Invoices")
+    #   page.check("status")
     #   save_and_open_page
-    #   page.check(store.monthly_invoice.id)
     #   page.should have_content("Successfully changed")
     # end
+
+    it "allows admin to send reminder email if invoices are already generated" do
+      click_link("Current")
+      click_button("Send reminder email")
+      page.should have_content("Emails have been sent")
+    end
   end
 end
