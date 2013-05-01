@@ -5,7 +5,7 @@ class Admin::RefundsController < ApplicationController
   end
 
   def create
-    amount = params[:total_cost]
+    amount = params[:total_cost].to_f * 100
     order  = Order.find(params[:id])
 
     RefundService.create(order, amount)
