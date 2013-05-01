@@ -9,6 +9,7 @@
     <% unless @invoice == nil %>
       <%= link_to "Invoices", store_admin_invoices_path(id: @store.id), class: 'btn btn-success' %>
     <% end %>
+    <%= link_to "Orders", admin_orders_path(@store.slug), class: 'btn btn-success' %>
   </div>
 
   <hr>

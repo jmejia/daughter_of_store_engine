@@ -106,6 +106,15 @@ ActiveRecord::Schema.define(:version => 20130430221229) do
     t.string   "image_name",         :default => "98"
   end
 
+  create_table "refunds", :force => true do |t|
+    t.integer  "amount"
+    t.integer  "order_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "refunds", ["order_id"], :name => "index_refunds_on_order_id"
+
   create_table "roles", :force => true do |t|
     t.string   "title"
     t.datetime "created_at", :null => false

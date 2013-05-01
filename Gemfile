@@ -44,5 +44,4 @@ group :development, :test do
   gem 'pry'
   gem 'rack_session_access'
   gem 'better_errors'
-#  gem 'binding_of_caller'
 end

@@ -4,14 +4,9 @@ describe InvoiceService do
   fixtures :all
   it "Will create an invoice for each store" do
     store = stores(:test)
-    order1 = Order.new(total_cost: 80, store_id: store.id)
-    order1.created_at = Date.new(2010,10,10)
-    order1.save
-    order2 = Order.new(total_cost: 120, store_id: store.id)
-    order2.created_at = Date.new(2010,10,11)
-    order2.save
-    orders = store.orders
-    InvoiceService.create(orders)
+    payment1 = Payment.new(80, store, Date.new(2010,10,10))
+    payment2 = Payment.new(120, store, Date.new(2010,10,11))
+    InvoiceService.create([payment1, payment2], Date.new(2010,10,10), Date.new(2010,10,11))
     result = store.invoices.first
     expect(result).to_not be_nil
     expect(result.total_revenue).to eq 200

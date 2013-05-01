@@ -1,10 +1,13 @@
 class InvoiceService
-  def self.create(orders, start_date, end_date)
-    order_fee = orders.inject(0){ |sum, order| sum + (order.total_cost || 0) }
-    fee_amount = order_fee * 0.05
+  def self.create(payments, start_date, end_date)
+    payment_dates = payments.collect(&:created_at)
+    start_date    = payment_dates.min
+    end_date      = payment_dates.max
 
-    invoice = Invoice.create(total_revenue:  order_fee,
-                    store_id:      orders.first.store_id,
+    payment_fee = payments.inject(0){ |sum, payment| sum + (payment.total_cost || 0) }
+    fee_amount  = payment_fee * 0.05
+    invoice = Invoice.create!(total_revenue: payment_fee,
+                    store_id:      payments.first.store.id,
                     start_date:    start_date,
                     end_date:      end_date,
                     fee_amount:    fee_amount)

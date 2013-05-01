@@ -1,0 +1,31 @@
+<div class="well well-large">
+  <table class="table table-striped">
+    <thead>
+      <h1><%= @store.name %> Orders</h1>
+    </thead>
+
+    <hr>
+
+    <tr>
+      <th><h4>Order #</h4></th>
+      <th><h4>Date</h4></th>
+      <th><h4>Total</h4></th>
+      <th><h4>Customer #</h4></th>
+      <th><h4>Status</h4></th>
+      <th><h4>Actions</h4></th>
+    </tr>
+
+    <% @orders.each do |order| %>
+      <tr class="order">
+        <td><%= order.id %></td>
+        <td><%= order.created_at.strftime("%d %b %y") %></td>
+        <td><%= amount_in_dollars(order.total_cost) %></td>
+        <td><%= order.user_id %></td>
+        <td><%= order.status %></td>
+        <td><%= button_to "Process Refund", admin_refund_path(@store.slug, order.id),
+            {:class => 'btn btn-primary', method: :get} %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

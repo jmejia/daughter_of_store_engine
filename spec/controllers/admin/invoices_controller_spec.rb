@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe Admin::InvoicesController do
+  fixtures :all
 
-  let!(:store) { Store.create!(name: "Warm Runnings",
-                                slug: "warm-runnings",
-                                status: "approved") }
+  let!(:store) { stores(:test) }
+  let!(:order) { orders(:test) }
+  let!(:user)  { users(:test) }
 
   before do
     order1 = Order.new(total_cost: 80, store_id: store.id)
@@ -31,15 +32,14 @@ describe Admin::InvoicesController do
     }
   end
 
-  describe "PUT update" do
+  describe "generate invoices" do
     before do
       @ability.can :update, Invoice
       invoice.stub(:save).and_return(true)
     end
 
-    # it "assigns the requested invoice as @invoice" do
-    #   put :update, {:id => invoice.to_param, :invoice => valid_attributes}
-    #   assigns(:invoice).should eq(invoice)
-    # end
+    it "creates an invoice from orders and refunds" do
+
+    end
   end
 end

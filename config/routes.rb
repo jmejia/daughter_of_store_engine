@@ -8,7 +8,6 @@ StoreEngine::Application.routes.draw do
     resource :global_fee, :only => [:edit, :update], :controller => "global_fee"
     resources :invoices do
 
-
       member do
         get :pay
         put :submit_payment
@@ -71,7 +70,7 @@ StoreEngine::Application.routes.draw do
   scope "/:store_slug" do
 
     resources :categories
-    get "/" => "products#index", as: "home"
+    get "/" => "products#index", :as => "home"
     resources :products, :only => :show
 
     namespace :admin do
@@ -79,7 +78,7 @@ StoreEngine::Application.routes.draw do
 
       scope "/:users" do
         delete "remove_stocker" => "stores#remove_stocker"
-        delete "remove_admin" => "stores#remove_admin"
+        delete "remove_admin"   => "stores#remove_admin"
       end
 
       resources :products do
@@ -89,11 +88,19 @@ StoreEngine::Application.routes.draw do
         end
       end
 
+      resources :refunds, :except => [:new, :create] do
+        member do
+          get  "new"    => "refunds#new"
+          post "create" => "refunds#create"
+        end
+      end
+
       resources :orders
-      post "create_admin" => "stores#create_admin"
-      get "new_admin" => "stores#new_admin"
+
+      post "create_admin"   => "stores#create_admin"
+      get  "new_admin"      => "stores#new_admin"
       post "create_stocker" => "stores#create_stocker"
-      get "new_stocker" => "stores#new_stocker"
+      get  "new_stocker"    => "stores#new_stocker"
     end
   end
 end

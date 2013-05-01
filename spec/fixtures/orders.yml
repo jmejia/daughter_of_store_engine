@@ -1,0 +1,5 @@
+test:
+  status: paid
+  user: test
+  total_cost: 100
+  store: test
