@@ -1,0 +1,2 @@
+module GlobalFeeHelper
+end

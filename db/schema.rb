@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425025341) do
+ActiveRecord::Schema.define(:version => 20130430221229) do
 
   create_table "carts", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -41,6 +41,12 @@ ActiveRecord::Schema.define(:version => 20130425025341) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "global_fees", :force => true do |t|
+    t.integer  "amount"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "invoices", :force => true do |t|
     t.integer  "store_id"
