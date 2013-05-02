@@ -1,6 +1,8 @@
 ## StoreEngine
 
-A webstore that recreates the good ol' days of traveling the Oregon Trail. We sell Oregon Trail adventures at <a href="http://mrblue-sose.herokuapp.com/">mrblue-sose.herokuapp.com</a>.
+A multi tenant eccomerce platform with a cut of the profits going to the platform administrators.
+
+<a href="http://dose-gates.herokuapp.com/">View the live application</a>.
 
 http://tutorials.jumpstartlab.com/projects/store_engine.html
 
