@@ -33,7 +33,7 @@ namespace :db do
       puts "product #{count}"
       stores.each {|store| store.products.create!(description: Faker::Lorem.sentence,
                                                   name: Faker::Lorem.word.capitalize + rand(1000).to_s,
-                                                  price: 30000 + Random.rand(100000),
+                                                  price: 30000 + Random.rand(1000),
                                                   #category_ids: [store.category_ids.sample],
                                                   category_ids: store.categories.sample.id,
                                                   image_name: 1 + rand(110)
@@ -117,7 +117,7 @@ namespace :db do
       total_cost = 1 + rand(1000000)
       store_id = 1 + rand(11)
       order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = Date.today.ago(1.month - 1.day)
+      order.created_at = Date.today.ago(1.month + 1.day)
       order.save
     end
 
@@ -128,7 +128,7 @@ namespace :db do
       total_cost = 1 + rand(1000000)
       store_id = 1 + rand(11)
       order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = Date.today.ago(2.months - 1.day)
+      order.created_at = Date.today.ago(2.months + 1.day)
       order.save
     end
 
@@ -139,7 +139,7 @@ namespace :db do
       total_cost = 1 + rand(1000000)
       store_id = 1 + rand(11)
       order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = Date.today.ago(3.months - 1.day)
+      order.created_at = Date.today.ago(3.months + 1.day)
       order.save
     end
 
@@ -150,7 +150,7 @@ namespace :db do
       total_cost = 1 + rand(1000000)
       store_id = 1 + rand(11)
       order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = Date.today.ago(4.months - 1.day)
+      order.created_at = Date.today.ago(4.months + 1.day)
       order.save
     end
 
@@ -161,7 +161,7 @@ namespace :db do
       total_cost = 1 + rand(1000000)
       store_id = 1 + rand(11)
       order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = Date.today.ago(5.months - 1.day)
+      order.created_at = Date.today.ago(5.months + 1.day)
       order.save
     end
   end

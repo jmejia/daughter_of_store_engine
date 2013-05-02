@@ -19,7 +19,4 @@ module ApplicationHelper
     items.inject(0, :+)
   end
 
-  def category_counts()
-    ########Implement this
-  end
 end
