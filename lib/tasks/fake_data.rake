@@ -79,7 +79,7 @@ namespace :db do
   desc "Fill database with fake users"
   task populate: :environment do
     count = 0
-    100.times do |u|
+    50.times do |u|
       count += 1
       puts "user #{count}"
       first_name = Faker::Name.first_name
