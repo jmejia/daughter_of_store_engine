@@ -28,7 +28,7 @@ namespace :db do
 
     # creates fake products for each store
     count = 0
-    500.times do |p|
+    250.times do |p|
       count += 1
       puts "product #{count}"
       stores.each {|store| store.products.create!(description: Faker::Lorem.sentence,
