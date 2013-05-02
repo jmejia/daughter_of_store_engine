@@ -8,8 +8,6 @@
     <% end %>
     <br>
 
-    <% total = (total_orders_amount(@orders) + -total_refunds_amount(@orders)) * @percentage %>
-
   <h4>Summary</h4>
     <table class="summary">
       <tr>
@@ -41,13 +39,8 @@
     <% end %>
     <tr class="total owed">
       <td><h3>Total</h3></td>
-<<<<<<< HEAD
-      <td><h3><%= amount_in_dollars(total_order_amount(@orders)) %></h3></td>
+      <td><h3><%= amount_in_dollars(@invoice.total_revenue) %></h3></td>
       <td><h3><font color="red"><%= total = amount_in_dollars(@invoice.fee_amount) %></h3></td>
-=======
-      <td><h3><%= amount_in_dollars(total_orders_amount(@orders)) %></h3></td>
-      <td><h3><font color="red"><%= fee_total = amount_in_dollars(total_orders_amount(@orders) * @percentage) %></h3></td>
->>>>>>> 8384009023ed4535850f9fc97056a2e3452a4dd1
     </tr>
   </table>
   <% if @refunds != [] %>
@@ -74,7 +67,7 @@
   <% end %>
 <% if @invoice.status == false %>
   <h4>
-    <p>Remember, your bill of <%= amount_in_dollars(total) %> is due by the 15th.</p>
+    <p>Remember, your bill of <%= amount_in_dollars(@invoice.fee_amount) %> is due by the 15th.</p>
     <p>Thanks!</p>
     <p>Epic Sale</p>
   </h4>

@@ -24,12 +24,21 @@ class Store < ActiveRecord::Base
     invoices.where(:start_date => start_date.beginning_of_day..end_date).first
   end
 
+  def self.total_monthly_fees(start_date)
+    store_fees = all.map do |store|
+      store.monthly_fee(start_date)
+    end
+
+    store_fees.inject(0,:+)
+  end
+
   def monthly_fee(start_date)
-    monthly_orders = orders.where(
-      :created_at => start_date.beginning_of_day..start_date.end_of_month
-      )
-    order_fee = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
-    (order_fee * GlobalFee.first.percentage).to_i
+    global_fee = GlobalFee.first
+    end_date = start_date.end_of_month
+    payments = payments(start_date..end_date)
+    total_revenue = InvoiceService.total_revenue(payments)
+    fee_amount = InvoiceService.calculate_fee(total_revenue, global_fee)
+    fee_amount.to_i
   end
 
   def admins
