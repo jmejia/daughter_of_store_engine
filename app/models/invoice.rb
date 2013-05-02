@@ -15,10 +15,7 @@ class Invoice < ActiveRecord::Base
 
   def self.monthly_invoices?(start_date)
     end_date = start_date.end_of_month
-    invoice = Invoice.where(:start_date => start_date..end_date).first
-    if invoice
-      true
-    end
+    Invoice.where(:start_date => start_date..end_date).first
   end
 
   def self.total_balance(start_date)

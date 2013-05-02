@@ -2,10 +2,39 @@ class Admin::InvoicesController < ApplicationController
   before_filter :require_admin,
                 except: [:show, :store_invoices, :pay, :submit_payment]
 
+  class RootInvoicesPresenter
+    def initialize(stores,previous_month_start_date)
+      @previous_month_start_date = previous_month_start_date
+      @stores = stores
+      @total_fees = Order.total_monthly_fees(@previous_month_start_date)
+      @outstanding_balance = Invoice.outstanding_balance(@previous_month_start_date)
+    end
+
+    def billing_period
+      "#{@previous_month_start_date.strftime("%m/%d/%Y")} through #{@previous_month_start_date.end_of_month.strftime("%m/%d/%Y")}"
+    end
+
+    def send_reminder_emails?
+      @total_fees > 0 && @existing_invoices
+    end
+
+    def send_generate_invoices?
+      @total_fees > 0 && @existing_invoices.empty? && not_just_launched_month
+    end
+
+    def not_just_launched_month
+
+    end
+
+  end
+
   def index
-    @invoices = Invoice.all
     @url_date = Date.new(params[:year].to_i, params[:month].to_i)
     @previous_month_start_date = @url_date - 1.month
+
+    @invoices_page = RootInvoicesPresenter.new(Store.all,@previous_month_start_date)
+
+    @invoices = Invoice.all
     @total_fees = Order.total_monthly_fees(@previous_month_start_date)
     @outstanding_balance = Invoice.outstanding_balance(@previous_month_start_date)
     @monthly_invoices = Invoice.monthly_invoices?(@previous_month_start_date)

@@ -3,7 +3,15 @@
     <thead>
       <h1>Invoices</h1>
       <hr>
-      <h4 class="pull-left">Billing period: <%= @previous_month_start_date.strftime("%m/%d/%Y") %> through <%= @previous_month_start_date.end_of_month.strftime("%m/%d/%Y") %></h4>
+      <h4 class="pull-left">Billing period: <%= @invoices_page.billing_period %></h4>
+      <% if @invoices_page.send_reminder_emails? %>
+
+      <% end %>
+
+      <% if @invoices_page.send_generate_invoices? %>
+
+      <% end %>
+
       <% if @total_fees > 0 %>
         <% if @existing_invoices %>
           <%= button_to "Send reminder emails", reminder_admin_invoices_path(year: params[:year],
