@@ -26,9 +26,16 @@ class Order < ActiveRecord::Base
       Invoice.total_balance(start_date)
     else
       end_date       = start_date.end_of_month
-      monthly_orders = Order.where(:created_at => start_date..end_date)
-      order_fee      = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
-      (order_fee * GlobalFee.first.percentage).to_i
+      # monthly_orders = Order.where(:created_at => start_date..end_date)
+      # order_fee      = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
+      # (order_fee * GlobalFee.first.percentage).to_i
+      store_fees = []
+       Store.all.each do |store|
+        orders = store.orders.where(created_at: start_date..end_date)
+        total_costs = orders.inject(0){|sum, order| sum + (order.total_cost || 0)}
+        store_fees << (total_costs * GlobalFee.first.percentage).to_i
+      end
+      store_fees.inject(0,:+)
     end
   end
 
