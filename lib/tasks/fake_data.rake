@@ -79,7 +79,7 @@ namespace :db do
   desc "Fill database with fake users"
   task populate: :environment do
     count = 0
-    50.times do |u|
+    20.times do |u|
       count += 1
       puts "user #{count}"
       first_name = Faker::Name.first_name
@@ -130,39 +130,6 @@ namespace :db do
       store_id = 1 + rand(11)
       order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
       order.created_at = @date.ago(2.months + 1.day)
-      order.save
-    end
-
-    100.times do |o|
-      count += 1
-      puts "order #{count}"
-      user_id = 1 + rand(50)
-      total_cost = 1 + rand(1000000)
-      store_id = 1 + rand(11)
-      order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = @date.ago(3.months + 1.day)
-      order.save
-    end
-
-    100.times do |o|
-      count += 1
-      puts "order #{count}"
-      user_id = 1 + rand(50)
-      total_cost = 1 + rand(1000000)
-      store_id = 1 + rand(11)
-      order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = @date.ago(4.months + 1.day)
-      order.save
-    end
-
-    100.times do |o|
-      count += 1
-      puts "order #{count}"
-      user_id = 1 + rand(50)
-      total_cost = 1 + rand(1000000)
-      store_id = 1 + rand(11)
-      order = Order.create!(user_id: user_id, total_cost: total_cost, store_id: store_id, status: "paid")
-      order.created_at = @date.ago(5.months + 1.day)
       order.save
     end
   end
