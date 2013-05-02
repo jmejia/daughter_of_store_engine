@@ -21,22 +21,41 @@ class Order < ActiveRecord::Base
     Payment.new(self.total_cost, self.store, self.created_at)
   end
 
+  def refund_amount
+    self.refunds.collect(&:amount).reduce(:+)
+  end
+
   def self.total_monthly_fees(start_date)
     if Invoice.monthly_invoices?(start_date)
       Invoice.total_balance(start_date)
     else
       end_date       = start_date.end_of_month
-      # monthly_orders = Order.where(:created_at => start_date..end_date)
-      # order_fee      = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
-      # (order_fee * GlobalFee.first.percentage).to_i
       store_fees = []
-       Store.all.each do |store|
+
+      Store.all.each do |store|
         orders = store.orders.where(created_at: start_date..end_date)
-        total_costs = orders.inject(0){|sum, order| sum + (order.total_cost || 0)}
+        refunds = store.refunds.where(created_at: start_date..end_date)
+        order_totals = orders.inject(0){|sum, order| sum + (order.total_cost || 0)}
+        refund_totals = refunds.inject(0){|sum, refund| sum + (refund.amount || 0)}
+        total_costs = order_totals + refund_totals
         store_fees << (total_costs * GlobalFee.first.percentage).to_i
       end
+
       store_fees.inject(0,:+)
     end
+    #end_date        = start_date.end_of_month
+    #monthly_orders  = Order.where(
+    #  :created_at => start_date.beginning_of_day..start_date.end_of_month
+    #  )
+    #monthly_refunds = Refund.where(
+    #  :created_at => start_date.beginning_of_day..start_date.end_of_month
+    #  )
+    #order_fee  = monthly_orders.inject(0){ |sum, order| sum + order.total_cost }
+    #refund_fee = monthly_refunds.inject(0){ |sum, refund| sum + refund.amount }
+
+    #fee        = order_fee - refund_fee
+
+    #(fee * GlobalFee.first.percentage).to_i
   end
 
   def to_param
