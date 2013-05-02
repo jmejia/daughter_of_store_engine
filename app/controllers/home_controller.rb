@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def show
-    @products = []
     @stores = Store.order("name")
+    @featured_stores = @stores[0..2]
   end
 end

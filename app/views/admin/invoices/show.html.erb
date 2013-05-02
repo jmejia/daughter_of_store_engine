@@ -15,10 +15,10 @@
       </tr>
       <tr>
         <td><strong>Total Revenue:<strong></td>
-        <td><%= number_to_currency(@invoice.total_revenue.to_f / 100) %></td>
+        <td><%= amount_in_dollars(@invoice.total_revenue) %></td>
       </tr>
         <td><strong>Epic Store's Fee:</strong></td>
-        <td><%= number_to_currency(@invoice.total_revenue.to_f / 100 * @percentage) %></td>
+        <td><%= amount_in_dollars(@invoice.fee_amount) %></td>
       </tr>
     </table><br>
     <h4>Details</h4>
@@ -38,7 +38,7 @@
     <tr class="total owed">
       <td><h3>Total</h3></td>
       <td><h3><%= amount_in_dollars(total_order_amount(@orders)) %></h3></td>
-      <td><h3><font color="red"><%= total = amount_in_dollars(total_order_amount(@orders) * @percentage) %></h3></td>
+      <td><h3><font color="red"><%= total = amount_in_dollars(@invoice.fee_amount) %></h3></td>
     </tr>
   </table>
 <% if @invoice.status == false %>
